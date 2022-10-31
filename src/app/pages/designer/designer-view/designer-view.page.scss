@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+.fullname
+{
+    font-family: 'Mukta', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+ion-note
+{
+    color: #000000!important;
+    font-family: 'Mukta', sans-serif;
+    font-size: 18px;
+    img{
+        height: 80px;
+        object-fit: contain;
+    }
+}
+ion-label,.ion-label
+{
+    color: rgb(17, 17, 17) !important;
+    font-family: 'Mukta', sans-serif;
+    font-size: 18px;
+    text-transform: capitalize;
+}
+.d-flex.overflow-hidden
+{
+    padding: 0 15px;
+    font-size: 16px !important;
+}
+.descption
+{
+    
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* text-overflow: clip; */
+    overflow: hidden;
+
+}
+.w-40
+{
+    width: 40%;
+}
+.w-60
+{
+    width: 60%;
+}
+a
+{
+    cursor: pointer;
+}
+.mat-form-field-wrapper
+{
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,1171 @@
+<ion-header  class="modal-header">
+  <ion-toolbar>
+    <div class="modal-inner">
+      <ion-title>{{heder_title}}</ion-title>
+      <a (click)="closeModal()" class="modal-close">
+        <ion-icon slot="icon-only" name="close-circle-outline" title="Close Modal"></ion-icon>
+      </a>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="form-layout">
+    <div class="form-wrapper">
+      <div class="common-modal-body">
+        <div class="modal-wrapper">
+          <!-- changepassword_modal modal start -->
+          <div class="changepassword pt-2" *ngIf="get_identifier == 'changepassword_modal'">
+            <div class="login-inner">
+              <form class="login" #changepasswordForm="ngForm" (ngSubmit)="onSubmitChangepswForm(changepasswordForm)"   novalidate>
+                  <input type="hidden" [(ngModel)]="username"
+                  name="userName">
+                <div class="form-group">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Old Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" 
+                    [(ngModel)]="model.oldPass"
+                    name="oldPass"
+                    required
+                    clearInput>
+                    <a  matTooltipPosition="above" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline">
+                    <mat-label>New Password</mat-label>
+                    <input matInput [type]="hide2 ? 'password' : 'text'" 
+                    [(ngModel)]="model.newPass" (keyup)="passwordvalid(model.newPass,model.conformpassword)"
+                    name="newPass"
+                    required 
+                    clearInput>
+                    <a  mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                  </mat-form-field>
+                </div>
+                <div class="form-group p-0">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Conform Password</mat-label>
+                    <input matInput [type]="hide3 ? 'password' : 'text'"  (keyup)="passwordvalid(model.newPass,model.conformpassword)"
+                    [(ngModel)]="model.conformpassword"
+                    name="conformpassword"
+                    required
+                    clearInput>
+                    <a matTooltip="{{hide3 ? 'Show Password' : 'Hide Password'}}" matTooltipPosition="above" mat-icon-button matSuffix (click)="hide3 = !hide3" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide3 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                  </mat-form-field>
+                </div>
+                <p class="text-danger text-center">{{error}}</p>
+                <div class="form-button mt-5 pt-3">
+                  <ion-button class="custom-btn" [ngClass]="{'disabled' : error}" type="submit"  [disabled]="!changepasswordForm.valid">
+                    <ion-spinner class="btnloader" name="crescent" *ngIf="btnloader2"></ion-spinner>
+                    Change Password
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+          <!-- changepassword_modal modal end -->
+          
+          <!-- profile_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'designerprofile_modal'">
+            <div class="">
+              <form class="login" #designerprofileForm="ngForm" (ngSubmit)="onSubmitdesignerProfileForm(designerprofileForm)"  novalidate>
+                <input type="hidden" [(ngModel)]="designerprofiledata.profilePic" name="profilePic">
+                <mat-tab-group>
+                  <!-- Profile tab start -->
+                  <mat-tab label="Profile" isActive = 'true'> 
+                    <ion-grid>
+                      <input type="hidden" [(ngModel)]="designerprofiledata.designerId"
+                    name="designerId">
+                      <ion-row>
+                        <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12" class="pt-0 pb-0">
+                          <p class="mb-0">Designer 1</p>
+                        </ion-col>
+                        <!--First Name -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>First Name</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.firstName1"
+                              name="firstName1"
+                              pattern="[A-Za-z]+"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Last Name -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Last Name</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.lastName1"
+                              name="lastName1"
+                              required
+                              pattern="[A-Za-z]+"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12" class="pt-0 pb-0">
+                          <p class="mb-0">Designer 2</p>
+                        </ion-col>
+                        <!--First Name -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>First Name</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.firstName2"
+                              name="firstName2"
+                              pattern="[A-Za-z]+"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Last Name -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Last Name</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.lastName2"
+                              name="lastName2"
+                              required
+                              pattern="[A-Za-z]+"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- displayName -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Display Name</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.displayName"
+                              name="displayName"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Email -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Email</mat-label>
+                              <input matInput type="email"
+                              [(ngModel)]="designerprofiledata.email"
+                              name="email"
+                              required
+                              clearInput readonly>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Mobile No -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Mobile No</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.mobileNo"
+                              name="mobileNo"
+                              pattern="^((\\+91-?)|0)?[0-9]{10}$" 
+                              onKeyPress="if(this.value.length==10) {return false;}" 
+                              maxlength="10"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Alt-Mobile No -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Alt-Mobile No</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.altMobileNo"
+                              name="altMobileNo"
+                              pattern="^((\\+91-?)|0)?[0-9]{10}$"  
+                              onKeyPress="if(this.value.length==10) {return false;}" 
+                              maxlength="10"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- maritalstatuslist -->
+                        <!-- <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-item ngsel required">
+                            <ng-select [items]="maritalstatuslist" 
+                                    bindLabel="name" 
+                                    name="maritalStatus"
+                                    placeholder="Select Category"
+                                    bindValue="name" 
+                                    [(ngModel)]="designerprofiledata.maritalStatus"
+                                    (change)="ngsel(model.adrCountry)"
+                                    required>
+                            </ng-select>
+                            <label>Marital Status </label>
+                          </div>
+                        </ion-col> -->
+                        <!-- DOB -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>DOB</mat-label>
+                              <input matInput type="date"
+                              [(ngModel)]="designerprofiledata.dob"
+                              name="designerdob" max="{{currentDate}}-01-01"
+                              (change)="changeDateFormat('DESIGNER',designerprofiledata.dob)"
+                              required
+                              onKeyPress="return false"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <input type="hidden" name="dob" [(ngModel)]="model.designerdob">
+                        <!-- Gender -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <label class="mb-1">Gender</label>
+                            <mat-radio-group [(ngModel)]="designerprofiledata.gender" name="gender" required >
+                              <mat-radio-button value="male" >Male</mat-radio-button>&nbsp;
+                              <mat-radio-button value="female" >Female</mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                        </ion-col> 
+                        <!-- Country -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-item ngsel required">
+                            <ng-select [items]="countryList" 
+                                    bindLabel="name" 
+                                    name="country"
+                                    placeholder="Select Country"
+                                    bindValue="name" 
+                                    [(ngModel)]="designerprofiledata.country"
+                                    (change)="SelectedCountry(designerprofiledata.country)"
+                                    required>
+                            </ng-select>
+                            <label>Country </label>
+                          </div>
+                        </ion-col>
+                         <!-- State -->
+                         <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-item ngsel required">
+                            <ng-select [items]="stateList" 
+                                    bindLabel="name" 
+                                    name="state"
+                                    placeholder="Select State"
+                                    bindValue="name" 
+                                    [(ngModel)]="designerprofiledata.state"
+                                    (change)="selectState(designerprofiledata.state)"
+                                    required>
+                            </ng-select>
+                            <label>State </label>
+                          </div>
+                        </ion-col>
+                         <!-- DOB -->
+                         <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>City</mat-label>
+                              <input matInput type="text" [(ngModel)]="designerprofiledata.city"
+                              name="city"  required clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Your Address -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Your Address</mat-label>
+                              <textarea matInput type="text"
+                              [(ngModel)]="designerprofiledata.address"
+                              name="address"
+                              rows="3"
+                              required
+                              clearInput>
+                              </textarea>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </mat-tab>
+                  <!-- Profile tab end -->
+                  <!-- Socal tab start -->
+                  <mat-tab label="social"> 
+                    <ion-grid>
+                      <ion-row>
+                        <!-- Achievements -->
+                        <!-- <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group ">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Achievements</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.achievements"
+                              name="achievements"
+                              
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col> -->
+                        <!-- Description -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Description</mat-label>
+                              <textarea matInput type="text"
+                              [(ngModel)]="designerprofiledata.description"
+                              name="description"
+                              clearInput>
+                              </textarea>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Facebook Link -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Facebook Link</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.facebookLink"
+                              name="facebookLink"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Instagram Link -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Instagram Link</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.instagramLink"
+                              name="instagramLink"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Youtube Link -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Youtube Link</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.youtubeLink"
+                              name="youtubeLink"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        
+                      </ion-row>
+                    </ion-grid>
+                  </mat-tab>
+                  <!-- Socal tab end -->
+                  <!-- Bank tab start -->
+                  <mat-tab label="Bank"> 
+                    <ion-grid>
+                      <ion-row>
+                        <!-- accountNumber -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Account Number</mat-label>
+                              <input matInput type="number"
+                              [(ngModel)]="designerprofiledata.accountNumber"
+                              name="accountNumber"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- bankName -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Bank Name</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.bankName"
+                              name="bankName"
+                              required
+                              pattern="[a-zA-Z][a-zA-Z ]+"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Ifsc Code -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Ifsc Code</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.ifscCode"
+                              name="ifscCode"
+                              required
+                              pattern="^[A-Za-z]{4}\d{7}$"
+                              maxlength="11"
+                              clearInput>
+                              <mat-hint>11-digit IFSC code, the first four letters will be like 'ABCD', and the last 7 digits will represent a specific branch code.</mat-hint>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Choose file Aadhar -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-item required">
+                             <div class="custom-file">
+                               <input class="custom-file-input" id="singleFileUpload" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'aadharCard')">
+                               <label class="custom-file-label" for="singleFileUpload">Choose file Aadhar</label>
+                               <img [src]="previewimageSrc_aadher"/>
+                             </div>
+                          </div>
+                        </ion-col>
+                        <!-- Choose file panCard -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-item required">
+                             <div class="custom-file">
+                               <input class="custom-file-input" id="singleFileUpload" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'panCard')">
+                               <label class="custom-file-label" for="singleFileUpload">Choose file PAN</label>
+                               <img [src]="previewimageSrc_pan" />
+                             </div>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </mat-tab>
+                  <!-- Bank tab end -->
+                  <mat-tab label="More"> 
+                    <ion-grid>
+                      <ion-row>
+                        <!-- boutiqueName -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Boutique Name</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.boutiqueName"
+                              name="boutiqueName"
+                              required
+                              pattern="[a-zA-Z][a-zA-Z ]+"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                          
+                         <!-- firmName -->
+                         <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Firm Name</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.firmName"
+                              name="firmName"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- experience -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Year of experience</mat-label>
+                              <input matInput type="number"
+                              [(ngModel)]="designerprofiledata.experience"
+                              name="experience"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- gstin -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>GSTIN</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.gstin"
+                              name="gstin"
+                              maxlength="15"
+                              minlength="15" 
+                              required
+                              clearInput>
+                              <mat-hint>GSTIN must be 11 digit.</mat-hint>
+                            </mat-form-field>
+                          </div>
+                          <!-- pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]1}[1-9A-Z]{1}Z[0-9A-Z]{1}$ -->
+                        </ion-col>
+                        <!-- operatingCity -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Operating City</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.operatingCity"
+                              name="operatingCity"
+                              clearInput
+                              required>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- professionalCategory -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Professional Category</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="designerprofiledata.professionalCategory"
+                              name="professionalCategory"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- yearOfOperation -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group required">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Year Of Operation</mat-label>
+                              <input matInput type="number"
+                              [(ngModel)]="designerprofiledata.yearOfOperation"
+                              name="yearOfOperation"
+                              required
+                              min="0"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </mat-tab>
+                </mat-tab-group>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!designerprofileForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Update
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- profile_modal modal end -->
+          <!-- adminprofile_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'adminprofile_modal'">
+            <div class="">
+              <form class="login" #adminprofileForm="ngForm" (ngSubmit)="onSubmitadminProfileForm(adminprofileForm)"  novalidate>
+                  <input type="hidden" name="profilePic" [(ngModel)]="adminprofiledata.profilePic">
+                  <ion-grid *ngIf="role != 'DESIGNER'">
+                    <ion-row>
+                      <!-- Name -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>First Name</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="adminprofiledata.firstName"
+                            name="firstName"
+                            pattern="[A-Za-z]+"
+                            required
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- Last Name -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="adminprofiledata.lastName"
+                            name="lastName"
+                            required
+                            pattern="[A-Za-z]+"
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- Email -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput type="email"
+                            [(ngModel)]="adminprofiledata.email"
+                            name="email"
+                            required
+                            clearInput readonly>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- Mobile No -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Mobile No</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="adminprofiledata.mobileNo"
+                            name="mobileNo"
+                            required
+                            pattern="^((\\+91-?)|0)?[0-9]{10}$"  
+                            onKeyPress="if(this.value.length==10) {return false;}" 
+                            maxlength="10"
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- Alt-Mobile No -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Alt-Mobile No</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="adminprofiledata.altMobileNo"
+                            name="altMobileNo"
+                            pattern="^((\\+91-?)|0)?[0-9]{10}$"  
+                            onKeyPress="if(this.value.length==10) {return false;}" 
+                            maxlength="10"
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-item ngsel">
+                          <ng-select [items]="maritalstatuslist" 
+                                  bindLabel="name" 
+                                  name="maritalStatus"
+                                  placeholder="Select Marital Status"
+                                  bindValue="name" 
+                                  [(ngModel)]="adminprofiledata.maritalStatus"
+                                  required>
+                          </ng-select>
+                          <label>Marital Status </label>
+                        </div>
+                      </ion-col> -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>DOB</mat-label>
+                            <input matInput type="date"
+                            [(ngModel)]="adminprofiledata.dob"
+                            name="admindob"
+                            required
+                            (change)="changeDateFormat('ADMIN',adminprofiledata.dob)" 
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <input type="hidden" name="dob" [(ngModel)]="model.admindob">
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <label class="mb-1">Gender</label>
+                          <mat-radio-group [(ngModel)]="adminprofiledata.gender" name="gender" required >
+                            <mat-radio-button value="male" >Male</mat-radio-button>&nbsp;
+                            <mat-radio-button value="female" >Female</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                      </ion-col> 
+                    </ion-row>
+                  </ion-grid>
+                  <div class="form-button">
+                    <ion-button [ngClass]="{'disabled' : btnloader2}" type="submit" style="padding-left: 19px;"  [disabled]="!adminprofileForm.valid" class="custom-btn">
+                      <ion-spinner class="btnloader2" name="crescent" *ngIf="btnloader2"></ion-spinner>
+                      Update
+                    </ion-button>
+                    <ion-button color="danger" (click)="closeModal()">
+                      Cancel
+                    </ion-button>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <!-- adminprofile_modal modal end -->
+          <!-- productapprove_modal modal start -->
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'productapprove_modal'">
+            <div class="">
+              <form class="login" #approveForm="ngForm" (ngSubmit)="onSubmitapproveProduct(approveForm)">
+                  
+                  <ion-grid>
+                    <ion-row>
+                      <!-- comment -->
+                      <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Enter a comment</mat-label>
+                            <textarea matInput type="text"
+                            [(ngModel)]="modal.comment"
+                            name="comment"
+                            required
+                            clearInput
+                            rows="5" 
+                            >
+                            </textarea>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <div class="form-button">
+                    <ion-button class="custom-btn" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!approveForm.valid">
+                      <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                      Submit
+                    </ion-button>
+                    <ion-button color="danger" (click)="closeModal()">
+                      Cancel
+                    </ion-button>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <!-- productmessage_modal modal end -->
+          <!-- productmessage_modal modal start -->
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'message_modal'">
+            <div class="">  
+              <div class="comment-body" *ngFor="let item of get_item" >
+                <p class="opacity-6 mb-0" [ngClass]="{'success': item.Reason == 'Approved' , 'danger': item.Reason == 'Rejected'}">Reason: <span class="font-weight-200">{{item?.Reason}}</span> <span class="float-right">Date:{{item?.dateTime}}</span> </p>
+                <p class="mb-0 message"><span>Comment : </span>{{item?.comments}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'rejectmessage_modal'">
+            <div class="">  
+              <div class="comment-body">
+                <p class="opacity-8 mb-0 danger" >Reason: <span class="font-weight-200">Rejected</span></p>
+                <p class="mb-0 message"><span>Comment : </span>{{get_item}}</p>
+              </div>
+            </div>
+          </div>
+          <!-- productapprove_modal modal end -->
+          <!-- Desigerrejected_modal modal start -->
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'Desigerrejected_modal'">
+            <div class="">
+              <form class="login" #designerRejectForm="ngForm" (ngSubmit)="onSubmitdesignerRejectForm(designerRejectForm)">
+                  
+                  <ion-grid>
+                    <ion-row>
+                      <!-- comment -->
+                      <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Enter a comment</mat-label>
+                            <textarea matInput type="text"
+                            [(ngModel)]="modal.comment"
+                            name="comment"
+                            required
+                            clearInput
+                            rows="5" 
+                            >
+                            </textarea>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <div class="form-button">
+                    <ion-button class="custom-btn" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!designerRejectForm.valid">
+                      <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                      Submit
+                    </ion-button>
+                    <ion-button color="danger" (click)="closeModal()">
+                      Cancel
+                    </ion-button>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <!-- Desigerrejected_modal modal end -->
+          <!-- orderCommentdesigner_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'orderCommentdesigner_modal'">
+            <div class="">
+              <form class="login" #DispatchForm="ngForm" (ngSubmit)="onSubmitDispatchForm(DispatchForm)"  novalidate>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!DispatchForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Dispatch
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- orderCommentdesigner_modal modal end -->
+           <!-- orderCommentAdmin_modal modal start -->
+           <div class="profile_modal pt-2" *ngIf="get_identifier == 'orderCommentAdmin_modal'">
+            <div class="">
+              <form class="login" #ShipmentAdminForm="ngForm" (ngSubmit)="onSubmitShipmentAdminForm(ShipmentAdminForm)"  novalidate>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivery Expected Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.del_Expdate"
+                      name="del_Expdate"
+                      required
+                      (change)="changeDateFormat('del_Expdate',model.del_Expdate)" 
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" [(ngModel)]="model.deliveryExpectedDate" name="deliveryExpectedDate">
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivery Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.del_date"
+                      name="del_date"
+                      required
+                      (change)="changeDateFormat('del_date',model.del_date)" 
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" [(ngModel)]="model.deliveredDate" name="deliveredDate">
+                <input type="hidden" [(ngModel)]="model.deliveryStarted" name="deliveryStarted">
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivery Mode</mat-label>
+                      <input matInput type="text"
+                      [(ngModel)]="model.deliveryMode"
+                      name="deliveryMode"
+                      required
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!ShipmentAdminForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Shipment
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- orderCommentAdmin_modal modal end -->
+          <!-- orderDeliveryAdmin_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'orderDeliveryAdmin_modal'">
+            <div class="">
+              <form class="login" #DeliveryAdminForm="ngForm" (ngSubmit)="onSubmitDeliveryAdminForm(DeliveryAdminForm)"  novalidate>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivery Time</mat-label>
+                      <input matInput type="time"
+                      [(ngModel)]="model.del_Time"
+                      name="del_Time"
+                      requiredclearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" [(ngModel)]="model.deliveryExpectedDate" name="deliveryExpectedDate">
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivery partner name</mat-label>
+                      <input matInput type="text"
+                      [(ngModel)]="model.deliverypartnername"
+                      name="deliverypartnername"
+                      required
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivery partner number</mat-label>
+                      <input matInput type="number"
+                      [(ngModel)]="model.deliverypartnerNumber"
+                      name="deliverypartnerNumber"
+                      required
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!DeliveryAdminForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- orderDeliveryAdmin_modal modal end -->
+          <!-- orderDeliveryAdmin_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'DeliveredAdmin_modal'">
+            <div class="">
+              <form class="login" #DeliveredAdminForm="ngForm" (ngSubmit)="onSubmitDeliveredAdminForm(DeliveredAdminForm)"  novalidate>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivered Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.delivered_time"
+                      name="delivered_time"
+                      required
+                      (change)="changeDateFormat('delivered_time',model.delivered_time)" 
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" [(ngModel)]="model.deliveredDate" name="deliveredDate">
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivery partner names</mat-label>
+                      <input matInput type="text"
+                      [(ngModel)]="model.deliverypartnername"
+                      name="deliverypartnername"
+                      required
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivery partner number</mat-label>
+                      <input matInput type="number"
+                      [(ngModel)]="model.deliverypartnerNumber"
+                      name="deliverypartnerNumber"
+                      required
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" name="deliveryStatus" [(ngModel)]="model.deliveryStatus">
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!DeliveredAdminForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- orderDeliveryAdmin_modal modal end -->
+          <!-- orderCancelAdmin_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'orderCancelAdmin_modal'">
+            <div class="">
+              <form class="login" #DeliveredCancelAdminForm="ngForm" (ngSubmit)="onSubmitDeliveredCancelAdminForm(DeliveredCancelAdminForm)"  novalidate>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reason of Cancel</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" name="deliveryStatus" [(ngModel)]="model.deliveryStatus">
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!DeliveredCancelAdminForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- orderCancelAdmin_modal modal end -->
+          <!-- orderCancelDesigner_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'orderCancelDesigner_modal'">
+            <div class="">
+              <form class="login" #DeliveredCancelDesignerForm="ngForm" (ngSubmit)="onSubmitDeliveredCancelDesignerForm(DeliveredCancelDesignerForm)"  novalidate>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reason of Cancel</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" name="deliveryStatus" [(ngModel)]="model.deliveryStatus">
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!DeliveredCancelDesignerForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- orderCancelDesignermodal modal end -->
+          <!-- orderDeliveryAdmin_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'orderExportModal'">
+            <div class="">
+              <form class="login" #OrderExport="ngForm" (ngSubmit)="onSubmitOrderExport(OrderExport)"  novalidate>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Start Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.export_start"
+                      name="export_start"
+                      required
+                      (change)="changeDateFormat('export_start',model.export_start)" 
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" [(ngModel)]="model.startDate" name="startDate">
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>End Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.export_end"
+                      name="export_end"
+                      required
+                      (change)="changeDateFormat('export_end',model.export_end)" 
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" [(ngModel)]="model.endDate" name="endDate">
+                <input type="hidden" [(ngModel)]="ExportType" name="ExportType" required>
+                <p class="exportType_title mb-0">Export As a</p>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="d-flex download_type">
+                    <label for="pdf">
+                      <div class="icon" (click)="getExportType('pdf')" [ngClass]="{'disabled' : !model.endDate || !model.startDate}">
+                      <input type="radio" name="ExportType" class="radio_check" id="pdf">
+                        <mat-icon>
+                          picture_as_pdf
+                        </mat-icon>
+                        <p>PDF</p>
+                      </div>
+                    </label>
+                    <label for="doc">
+                      <div class="icon" (click)="getExportType('doc')" [ngClass]="{'disabled' : !model.endDate || !model.startDate}">
+                        <input type="radio" name="ExportType" class="radio_check" id="doc">
+                        <mat-icon>
+                          description
+                        </mat-icon>
+                        <p>EXCEL</p>
+                      </div>
+                    </label>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!OrderExport.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- orderDeliveryAdmin_modal modal end -->
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<!-- (keyup.enter)="onSubmitChangepswForm(changepasswordForm)" -->

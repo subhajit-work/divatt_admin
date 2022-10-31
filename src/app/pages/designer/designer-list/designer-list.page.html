@@ -1,0 +1,398 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="table-listing">
+        <div class="container-fluid">
+          <div class="page-header">
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="page-header-left">
+                          <h3>Designer List
+                              <!-- <small>Divatt Admin panel</small> -->
+                          </h3>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                <mat-icon>home</mat-icon>
+                            </a></li>
+                        <li class="breadcrumb-item" >
+                          Designer
+                        </li>
+                        <li class="breadcrumb-item active">
+                          Designer List
+                        </li>
+                    </ol>
+                </div>
+                  <!-- <div class="col-lg-6">
+                      <ol class="breadcrumb pull-right">
+                          <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                  <app-feather-icons [icon]="'home'"></app-feather-icons>
+                              </a></li>
+                          <li class="breadcrumb-item" *ngIf="breadcrumbs?.parentBreadcrumb">
+                            Product
+                          </li>
+                          <li class="breadcrumb-item active" *ngIf="breadcrumbs?.childBreadcrumb">
+                              Category
+                          </li>
+                      </ol>
+                  </div> -->
+              </div>
+          </div>
+        </div>
+        <div class="note-section">
+          <div class="col-md-10 m-auto">
+            <div class="row">
+              <!-- Waiting for approval -->
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 p-0">
+                <div class="note-item note-item2 note-box-warning card-outer">
+                  <div matRipple class="card card-box" (click)="checkDesignerList('waitForApprove')">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>schedule</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Waiting for login approval</p>
+                        <p><b>{{tableData?.waitingForApproval}}</b> Designers</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Approved -->
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 p-0">
+                <div class="note-item note-item2 note-box-success card-outer">
+                  <div matRipple class="card card-box" (click)="checkDesignerList('waitForSubmit')">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>verified</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Approved</p>
+                        <p><b>{{tableData?.waitingForSubmit}}</b> Designers</p>
+                      </div>
+                  </div>
+                </div>   
+              </div>
+              <!-- Submitted -->
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 p-0">
+                <div class="note-item note-item2 note-box-teal card-outer">
+                  <div matRipple class="card card-box" (click)="checkDesignerList('submitted')">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>grading</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Profile Submitted</p>
+                        <p><b>{{tableData?.submitted}}</b> Designers</p>
+                      </div>
+                  </div>
+                </div>   
+              </div>  
+            </div>
+            <div class="row">
+              <!-- Completed -->
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 p-0">
+                <div class="note-item note-item2 note-box-primary card-outer">
+                  <div matRipple class="card card-box" (click)="checkDesignerList('completed')">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>check</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Profile Completed</p>
+                        <p><b>{{tableData?.completed}}</b> Designers</p>
+                      </div>
+                  </div>
+                </div>       
+              </div>
+              <!-- Rejected -->
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 p-0">
+                <div class="note-item note-item2 note-box-danger card-outer">
+                  <div matRipple class="card card-box" (click)="checkDesignerList('rejected')">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>close</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Rejected</p>
+                        <p><b>{{tableData?.rejected}}</b> Designers</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Change Request -->
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 p-0">
+                <div class="note-item note-item2 note-box-primary card-outer">
+                  <div matRipple class="card card-box" (click)="checkDesignerList('change')">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>change_circle</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Change Request</p>
+                        <p><b>{{tableData?.deleted}}</b> Designers</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Deleted -->
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 p-0">
+                <div class="note-item note-item2 note-box-danger card-outer">
+                  <div matRipple class="card card-box" (click)="checkDesignerList('deleted')">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>delete</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Deleted</p>
+                        <p><b>{{tableData?.deleted}}</b> Designers</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <div class="card card-box">
+          <div class="card-header">
+            <div class="card-header-tittle">
+                {{tabletitle}} Designer List
+            </div>
+            <div class="card-header-action">
+              <!-- <ion-button class="custom-btn" [routerLink]="['/', 'designer-level']">
+                Add Designer Lebel
+              </ion-button> -->
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-header mt-3 mb-2">
+              <div class="records-wrapper">
+                  <ion-item class="record">
+                    <span class="text-black mr-1">Records: </span>
+                    <mat-form-field  class="m-0">
+                      <mat-select [(ngModel)]="displayRecord" name="record" (selectionChange)="displayRecordChange($event.value)">
+                        <mat-option *ngFor="let record of displayRecords" [value]="record.displayValue">
+                          <span *ngIf="record.displayValue > 0">{{record.displayValue}}</span>
+                          <!-- <span *ngIf="record.displayValue == 0">All</span> -->
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </ion-item>
+              </div>
+              <div class="search-wrapper">
+                <ion-searchbar class="p-0" showCancelButton="focus" debounce="500" placeholder="Search data ...." [(ngModel)]="searchTerm" (ionChange)="searchList($event)"></ion-searchbar>
+              </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="ion-text-start">
+                                <div>
+                                    #
+                                </div>
+                            </th>
+                            <th class="ion-text-center">
+                              <div class="ion-justify-content-center">
+                                Profile
+                              </div>
+                            </th>
+                            <!-- <th class="ion-text-start">
+                              <div>
+                                <ion-checkbox color="primary" name="select_all_item" [(ngModel)]="allselectModel" (ionChange)="allSelectItem($event)"></ion-checkbox>
+                              </div>
+                            </th> -->
+                            <th *ngFor="let th of tableHeaderData" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
+                              <div>
+                                {{th.display_name}}
+                                <mat-icon *ngIf="th.sortingButtonName == ''">import_export</mat-icon>
+                                <mat-icon *ngIf="th.sortingButtonName == 'ASC'">expand_less</mat-icon>
+                                <mat-icon *ngIf="th.sortingButtonName == 'DESC'">expand_more</mat-icon>
+                              </div>
+                            </th>
+                            <!-- *ngIf="tabletitle =='Submitted'" -->
+                            <th *ngIf="tabletitle =='Submitted'">
+                              <div class="ion-justify-content-center">
+                                Designer Lebel
+                              </div>
+                            </th>
+                            <th class="ion-text-center" *ngIf="showAction">
+                              <div class="ion-justify-content-center">
+                                Actions
+                              </div>
+                            </th>
+                            <th class="ion-text-center">
+                              <div class="ion-justify-content-center">
+                                More
+                              </div>
+                            </th>
+                            <!-- <th class="ion-text-center">
+                              <div class="ion-justify-content-center">
+                                Actions
+                              </div>
+                            </th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr  [hidden]="!isListLoading" class="loading-table-data">
+                        <td colspan="100" class="text-center">
+                          Data is loading...
+                        </td>
+                      </tr>
+                      <tr [hidden]="isListLoading" *ngIf="tableData?.data.length == 0" class="loading-table-data">
+                        <td colspan="100" class="text-center">
+                          No data found
+                        </td>
+                      </tr>
+                      <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index">
+                        <td>{{i + 1}}</td>
+                        <!-- <td>
+                            <ion-checkbox  name="checkbox_name" [(ngModel)]="item.isSelected" (ionChange)="onCheckboxSelect(item, $event)" color="primary"></ion-checkbox>
+                    
+                        </td> -->
+                        <td>
+                          <div class="text-center">
+                            <img [src]="item?.designerProfileEntity?.designerProfile?.profilePic!= null ? item?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" class="tableimg">
+                          </div>
+
+                        </td> 
+                        <td>
+                          {{item?.designerProfileEntity?.designerProfile?.displayName}}
+                        </td>
+                        <td>
+                          {{item?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}
+                        </td> 
+                        <td>
+                          {{item?.designerProfileEntity?.designerProfile?.firstName1}}&nbsp;
+                          {{item?.designerProfileEntity?.designerProfile?.lastName1}}
+                        </td>
+                        <td>
+                          {{item?.designerProfileEntity?.designerProfile?.firstName2}}&nbsp;
+                          {{item?.designerProfileEntity?.designerProfile?.lastName2}}
+                        </td>
+                        <td>
+                          {{item?.designerProfileEntity?.designerProfile?.lastName}}
+                        </td> 
+                        <td>
+                          {{item?.designerProfileEntity?.boutiqueProfile?.firmName}}
+                        </td>
+                        <td>
+                          {{item?.email}}
+                        </td>
+                        <td>
+                          {{item?.designerProfileEntity?.designerProfile?.mobileNo}}
+                        </td> 
+                        <td class="text-capitalize">
+                          {{item?.designerProfileEntity?.designerProfile?.gender}}
+                        </td> 
+                        <td>
+                          {{item?.designerProfileEntity?.designerProfile?.dob}}
+                        </td>
+                        <td class="table_dropdown" *ngIf="tabletitle =='Submitted'">
+                          <div>
+                            <mat-form-field appearance="outline">
+                              <mat-label>Select Lebel</mat-label>
+                              <mat-select name="categories" [(ngModel)]="item.categories" (selectionChange)="selectLabel(item.categories)">
+                                <mat-option *ngFor="let Lebel of Lebellist" [value]="Lebel">{{Lebel.Name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          
+                        </td> 
+                        <td class="action text-center pt-0"  *ngIf="showAction">
+                          <ion-fab horizontal="end" vertical="bottom" slot="" *ngIf="pagePermission?.modPrivs?.update == true" >
+                            <ion-fab-button color="dark" >
+                              <ion-icon color="warning" *ngIf="item.profileStatus == 'waitForApprove'" tooltip="Pending" flow="up" delay="500" name="time-outline" ></ion-icon>
+                              <ion-icon color="warning" *ngIf="item.profileStatus == 'SUBMITTED'" tooltip="Pending" flow="up" delay="500" name="time-outline" ></ion-icon>
+                              <ion-icon color="danger" *ngIf="item.profileStatus == 'REJECTED'" tooltip="Rejected" flow="up" delay="500" name="close-circle-outline"></ion-icon>
+                              <!-- <ion-icon  color="success" tooltip="Approved" flow="up" delay="500" name="checkmark-circle-outline"></ion-icon> -->
+                            </ion-fab-button>
+                            <ion-fab-list side="start">
+                              <ion-fab-button color="danger" tooltip="Reject Product" flow="up" delay="500"  (click)="changeStatus('reject',showAction,item)" >
+                                <ion-icon name="close-circle-outline" color="dark"></ion-icon>
+                              </ion-fab-button>
+                              <ion-fab-button color="success" tooltip="Approve Product" flow="up" delay="500" (click)="changeStatus('approve',showAction,item)" [ngClass]="{'disabled':tabletitle =='Submitted' && !this.item.categories}">
+                                <ion-icon name="checkmark-circle-outline" color="dark"></ion-icon>
+                              </ion-fab-button>
+                            </ion-fab-list>
+                          </ion-fab>
+                          <ion-button  matTooltip="View message" [ngClass]="{'d-none':tabletitle =='Waiting For Approve' || tabletitle =='Deleted'}" *ngIf="tabletitle !='Submitted'" matTooltipPosition="above" size="small" color="danger" (click)="onClickDeleteItem('single', item, '','');">
+                            <mat-icon>delete</mat-icon>
+                          </ion-button>
+                        </td>
+                        <td class="action" >
+                          <ion-button  matTooltip="View message" *ngIf="tabletitle== 'rejected'" matTooltipPosition="above" size="small" color="secondary" (click)="openRejectemodal('rejectmessage_modal', item.adminComment, '');">
+                            <mat-icon>chat</mat-icon>
+                          </ion-button>
+                          <ion-button  matTooltip="View Designer"  matTooltipPosition="above" size="small" color="secondary" [routerLink]="['/', 'designer-view', item.dId]">
+                            <mat-icon>visibility</mat-icon>
+                          </ion-button>
+                          <ion-button  matTooltip="View message" [ngClass]="{'d-none':tabletitle =='Waiting For Approve' || tabletitle =='Deleted'}" matTooltipPosition="above" size="small" color="danger" (click)="onClickDeleteItem('single', item, '','');">
+                            <mat-icon>delete</mat-icon>
+                          </ion-button>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="action">
+              <ion-button matTooltip="Refresh" matTooltipPosition="above" size="small" color="primary" (click)="onRefresh()">
+                <mat-icon>refresh</mat-icon>
+              </ion-button>
+            </div>
+            <div>
+                <ul class="pagination">
+                    <li (click)="setPage(0)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="First" matTooltipPosition="above">
+                        <a>
+                          <!-- First -->
+                          <ion-icon name="play-skip-back"></ion-icon>
+                        </a>
+                    </li>
+                    <li (click)="setPage(tableData.currentPage - 1)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="Previous" matTooltipPosition="above">
+                        <a>
+                          <!-- Previous -->
+                          <ion-icon name="caret-back"></ion-icon>
+                        </a>
+                    </li>
+                    <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                    <li>
+                        Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} 
+                    </li>
+                    <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                    <li (click)="setPage(tableData.currentPage + 1)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Next" matTooltipPosition="above">
+                        <a>
+                          <!-- Next -->
+                          <ion-icon name="caret-forward"></ion-icon>
+                        </a>
+                    </li>
+                    <li (click)="setPage(tableData.totalPage)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Last" matTooltipPosition="above">
+                        <a>
+                          <!-- Last -->
+                          <ion-icon name="play-skip-forward"></ion-icon>
+                        </a>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

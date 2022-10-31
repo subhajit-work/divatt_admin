@@ -1,0 +1,196 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="table-listing">
+        <div class="container-fluid">
+          <div class="page-header">
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="page-header-left">
+                          <h3>User List
+                              <!-- <small>Divatt Admin panel</small> -->
+                          </h3>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                <mat-icon>home</mat-icon>
+                            </a></li>
+                        <li class="breadcrumb-item active">
+                          User List
+                        </li>
+                    </ol>
+                </div>
+                  <!-- <div class="col-lg-6">
+                      <ol class="breadcrumb pull-right">
+                          <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                  <app-feather-icons [icon]="'home'"></app-feather-icons>
+                              </a></li>
+                          <li class="breadcrumb-item" *ngIf="breadcrumbs?.parentBreadcrumb">
+                            Product
+                          </li>
+                          <li class="breadcrumb-item active" *ngIf="breadcrumbs?.childBreadcrumb">
+                              Category
+                          </li>
+                      </ol>
+                  </div> -->
+              </div>
+          </div>
+        </div>
+        <div class="card card-box">
+          <div class="card-header">
+            <div class="card-header-tittle">
+              User List
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-header mt-3 mb-2">
+              <div class="records-wrapper">
+                  <ion-item class="record">
+                    <span class="text-black mr-1">Records: </span>
+                    <mat-form-field  class="m-0">
+                      <mat-select [(ngModel)]="displayRecord" name="record" (selectionChange)="displayRecordChange($event.value)">
+                        <mat-option *ngFor="let record of displayRecords" [value]="record.displayValue">
+                          <span *ngIf="record.displayValue > 0">{{record.displayValue}}</span>
+                          <!-- <span *ngIf="record.displayValue == 0">All</span> -->
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </ion-item>
+              </div>
+              <div class="search-wrapper">
+                <ion-searchbar class="p-0" showCancelButton="focus" debounce="500" placeholder="Search data ...." [(ngModel)]="searchTerm" (ionChange)="searchList($event)"></ion-searchbar>
+              </div>
+             </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="ion-text-start">
+                                <div>
+                                    #
+                                </div>
+                            </th> 
+                            <th class="ion-text-start">
+                              <div>
+                                  Profile Img
+                              </div>
+                          </th>                            
+                            <th *ngFor="let th of tableHeaderData" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
+                              <div>
+                                {{th.display_name}}
+                                <mat-icon *ngIf="th.sortingButtonName == ''">import_export</mat-icon>
+                                <mat-icon *ngIf="th.sortingButtonName == 'ASC'">expand_less</mat-icon>
+                                <mat-icon *ngIf="th.sortingButtonName == 'DESC'">expand_more</mat-icon>
+                              </div>
+                            </th>
+                            <th>
+                              Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr  [hidden]="!isListLoading" class="loading-table-data">
+                        <td colspan="100" class="text-center">
+                          Data is loading...
+                        </td>
+                      </tr>
+                      <tr [hidden]="isListLoading" *ngIf="tableData?.data.length == 0" class="loading-table-data">
+                        <td colspan="100" class="text-center">
+                          No data found
+                        </td>
+                      </tr>
+                      <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td>
+                          <div class="text-center">
+                            <img [src]="item?.profilePic!= '' ? item?.profilePic : 'assets/images/noimage.jpg'" class="tableimg">
+                          </div>
+                        </td> 
+                        <td>
+                          {{item?.firstName}}
+                        </td>
+                        <td>
+                          {{item?.lastName}}
+                        </td>
+                        <td>
+                          {{item?.dob}}
+                        </td>
+                        <td>
+                          {{item?.email}}
+                        </td>
+                        <td>
+                          {{item?.username}}
+                        </td>
+                        <td>
+                          {{item?.mobileNo}}
+                        </td>
+                        <td>
+                          {{item?.createdOn}}
+                        </td>
+                        <td>
+                          <mat-slide-toggle
+                                *ngIf="pagePermission?.modPrivs?.update == true"
+                                class="example-margin"
+                                (change)="statusChange(item.id)"
+                                [checked]="item.isActive == true">
+                          </mat-slide-toggle>
+                        </td>
+                        
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="action">
+              <ion-button matTooltip="Refresh" matTooltipPosition="above" size="small" color="primary" (click)="onRefresh()">
+                <mat-icon>refresh</mat-icon>
+              </ion-button>
+            </div>
+            <div>
+                <ul class="pagination">
+                    <li (click)="setPage(0)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="First" matTooltipPosition="above">
+                        <a>
+                          <!-- First -->
+                          <ion-icon name="play-skip-back"></ion-icon>
+                        </a>
+                    </li>
+                    <li (click)="setPage(tableData.currentPage - 1)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="Previous" matTooltipPosition="above">
+                        <a>
+                          <!-- Previous -->
+                          <ion-icon name="caret-back"></ion-icon>
+                        </a>
+                    </li>
+                    <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                    <li>
+                        Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} 
+                    </li>
+                    <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                    <li (click)="setPage(tableData.currentPage + 1)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Next" matTooltipPosition="above">
+                        <a>
+                          <!-- Next -->
+                          <ion-icon name="caret-forward"></ion-icon>
+                        </a>
+                    </li>
+                    <li (click)="setPage(tableData.totalPage)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Last" matTooltipPosition="above">
+                        <a>
+                          <!-- Last -->
+                          <ion-icon name="play-skip-forward"></ion-icon>
+                        </a>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

@@ -1,0 +1,27 @@
+.profile-details.text-center
+{
+    .label
+    {
+        position: relative;
+    }
+}
+.formloader
+{
+    position:  absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+mat-spinner.formloader
+{
+    width: 30px;
+    height: 30px;
+    svg
+    {
+        width: 30px;
+        height: 30px; 
+        circle{
+            // stroke-width: 2% !important;
+        }
+    }
+}

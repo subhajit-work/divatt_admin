@@ -1,0 +1,127 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-header-left">
+                        <h3>Designer Level
+                            <!-- <small>Divatt Admin panel</small> -->
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-right">
+                      <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                              <mat-icon>home</mat-icon>
+                          </a></li>
+                      <li class="breadcrumb-item" >
+                        Designer Level
+                      </li>
+                  </ol>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-layout">
+      <div class="form-wrapper">
+        <div class="row justify-content-center" *ngIf="loader"><mat-spinner class="form-get-loader"></mat-spinner></div>
+        <div class="card card-box" *ngIf="!loader">
+          <div class="card-header">
+              <div class="card-header-tittle">
+                {{parms_action_name}} Designer Level
+              </div>
+              
+          </div>
+          <form #Lebel="ngForm" (ngSubmit)="onSubmitLebelForm(Lebel)">
+            <div class="card-body" *ngIf="parms_action_name == 'add'">
+              <div class="col-md-12">  
+                <ion-grid>
+                  <ion-row>
+                    </ion-row>
+                    <ion-row>
+                      <div class="d-flex align-items-center">
+                        <span class="text-dark font-weight-bold h4 mb-0 mr-2">Add Level</span>
+                      <ion-button class="custom-btn"  (click)="addvalue()">
+                        <mat-icon>add</mat-icon>
+                      </ion-button>
+                    </div> 
+                    </ion-row>
+                  <ion-row>
+                    <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3" *ngFor="let value of values; let i = index">
+                      <div class="d-flex">
+                        <div class="form-group">
+                          <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Level Name</mat-label>
+                            <input matInput  [(ngModel)]="value.name"name="value{{i}}" required>
+                          </mat-form-field>
+                        </div>
+                        <ion-button color="danger" (click)="removevalue(i)" class="mt-2" [ngClass]="{ 'disabled': values.length < 2}">
+                          <mat-icon>cancel</mat-icon>
+                        </ion-button>
+                        </div>
+                    </ion-col>
+                    <!-- <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                      <ion-button class="custom-btn"  (click)="addvalue()">
+                        <mat-icon>add</mat-icon>
+                      </ion-button>
+                    </ion-col> -->
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </div>
+            <div class="card-footer" *ngIf="parms_action_name == 'add'">
+              <div></div>
+              <div>
+                
+                <ion-button class="custom-btn" type="submit"  [disabled]="!Lebel.valid">
+                  <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                  Save
+                </ion-button>
+                <ion-button color="danger" [routerLink]="['/', 'level-designer']">
+                  Cancel
+                </ion-button>
+              </div>
+            </div>
+            <div class="card-body" *ngIf="parms_action_name == 'edit'">
+              <div class="col-md-5 m-auto">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                      <div class="form-group">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Level Name</mat-label>
+                          <input matInput  name="Name" [(ngModel)] = "model.Name" required>
+                        </mat-form-field>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                  </ion-grid>
+              </div>
+            </div>
+            <div class="card-footer" *ngIf="parms_action_name == 'edit'">
+              <div></div>
+              <div>
+                <ion-button class="custom-btn" type="submit"  [disabled]="!Lebel.valid">
+                  <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                  Save
+                </ion-button>
+                <ion-button color="danger" [routerLink]="['/', 'level-designer']">
+                  Cancel
+                </ion-button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

@@ -1,0 +1,314 @@
+<common-header></common-header>
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper profile-page">
+        <div class="container-fluid">
+          <div class="page-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-header-left">
+                        <h3>Profile
+                            <!-- <small>Divatt Admin panel</small> -->
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-right">
+                      <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                              <mat-icon>home</mat-icon>
+                          </a></li>
+                      <!-- <li class="breadcrumb-item" *ngIf="role == 'ADMIN'">
+                        Admin
+                      </li>
+                      <li class="breadcrumb-item" *ngIf="role == 'DESIGNER'">
+                        Designer
+                      </li> -->
+                      <li class="breadcrumb-item active">
+                        Profile
+                      </li>
+                  </ol>
+              </div>
+            </div>
+        </div>
+          <div class="row">
+            <div class="col-xl-4">
+              <div class="card">
+                  <div class="card-body">
+                      <div class="profile-details text-center">
+
+                        <div *ngIf="role == 'ADMIN'" class="w-fit m-auto label">
+                          <mat-spinner class="formloader small-width"  *ngIf="imageLoader"></mat-spinner>
+                          <img [src]="adminprofiledata?.profilePic!= null ? adminprofiledata?.profilePic : 'assets/images/noimage.jpg'" alt="" class="img-fluid img-90 rounded-circle blur-up lazyloaded">
+                          <label for="profilepic" class="image_update_btn"><mat-icon *ngIf="!formBtn">edit</mat-icon></label>
+                        </div >  
+                        <input type="file"  *ngIf="role == 'ADMIN'" id="profilepic"  class="opacity-0 h-0 p-0" [ngClass]="{ 'disabled': imageLoader}" (change)="chooseFile('ADMIN',$event)">
+                        
+                        
+                        <div *ngIf="role == 'DESIGNER'" class="w-fit m-auto label">
+                          <mat-spinner class="formloader small-width" *ngIf="imageLoader"></mat-spinner>
+                          <img [src]="designerprofiledata?.designerProfile?.profilePic!= null ? designerprofiledata?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="" class="img-fluid img-90 rounded-circle blur-up lazyloaded">
+                          <label for="profilepic" class="image_update_btn"><mat-icon (click)="cancleUploading('edit','DESIGNER')">edit</mat-icon></label>
+                        </div> 
+                        <input type="file" *ngIf="role == 'DESIGNER'" id="profilepic"  class="opacity-0 h-0 p-0" [ngClass]="{ 'disabled': imageLoader}"  (change)="chooseFile('DESIGNER',$event)">
+                          
+                        <p class="text-muted  text-black" *ngIf="role == 'ADMIN'">{{adminprofiledata?.firstName}} {{adminprofiledata?.lastName}}</p>
+                        <p class="text-muted  text-black" *ngIf="role == 'DESIGNER'">{{designerprofiledata?.designerProfile?.firstName1}}  {{designerprofiledata?.designerProfile?.lastName1}}</p>
+                        <p class="text-muted  text-black text-capitalize d-flex justify-content-center" *ngIf="role == 'DESIGNER'">
+                          <span class="status" [ngClass]="{ 'warning': designerprofiledata.profileStatus == 'SUBMITTED' , 'danger': designerprofiledata.profileStatus == 'REJECTED','success': designerprofiledata.profileStatus == 'COMPLETED'}">
+                          {{designerprofiledata?.profileStatus}}
+                        </span></p>
+                        <p class="text-muted  text-black text-capitalize d-flex justify-content-center" *ngIf="role == 'DESIGNER'"><mat-icon class="mr-1">people</mat-icon><span style="line-height: 25px;">Followers :</span><span style="line-height: 25px;">{{followers}}</span></p>
+                        <p *ngIf="role == 'DESIGNER'">
+                          <mat-slide-toggle
+                            class="example-margin"
+                            (change)="statusChange(designerprofiledata.designerId)"
+                            [checked]="designerprofiledata.accountStatus == true">
+                          </mat-slide-toggle>
+                        </p>
+                        </div>
+                     <!-- <p class="text-center m-0 mt-2">
+                        <a (click)="deleteData(profiledata.id)" class="link">Delete Profile</a>
+                      </p> -->
+                  </div>
+              </div>
+            </div>
+            <div class="col-xl-8">
+              <div class="card">
+                <div class="card-body">
+                  <mat-tab-group mat-align-tabs="start" [ngClass]="{'onlyOne' : role != 'DESIGNER'}">
+                    <mat-tab *ngIf="role == 'ADMIN'">
+                      <ng-template mat-tab-label>
+                        <mat-icon>person_outline</mat-icon>
+                        <span >Profile</span>
+                      </ng-template>
+                        <div class="dtl-body pt-2 pb-2 p-4">
+                          <div class="d-flex align-items-center justify-content-between">
+                            <h3 class="font-weight-500 mb-3 h3 mt-3">Profile</h3>
+                           
+                            <!-- <button  type="button" (click)="openProfilemodal('profile_modal', profiledata, '');" class="btn btn-primary">Edit</button> -->
+                          </div>
+                          <div class="table-responsive">
+                            <table>
+                              <tr  *ngIf="adminprofiledata.firstName">
+                                <td class="border-0"><span class="text-black">First Name:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.firstName}}</span></td>
+                              </tr>
+                              <tr *ngIf="adminprofiledata.lastName">
+                                <td class="border-0" ><span class="text-black">Last Name:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.lastName}}</span></td>
+                              </tr>
+                              <tr *ngIf="adminprofiledata.email">
+                                <td class="border-0" ><span class="text-black">Email:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.email}}</span></td>
+                              </tr>
+                              <tr  *ngIf="adminprofiledata.gender">
+                                <td class="border-0"><span class="text-black">Gender:</span></td>
+                                <td class="border-0"><span class="text-capitalize">{{adminprofiledata?.gender}}</span></td>
+                              </tr>
+                              <tr  *ngIf="adminprofiledata.mobileNo">
+                                <td class="border-0"><span class="text-black">Mobile No:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.mobileNo}}</span></td>
+                              </tr>
+                              <tr *ngIf="adminprofiledata.dob">
+                                <td class="border-0" ><span class="text-black">DOB:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.dob}}</span></td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                        
+                    </mat-tab>
+                    <mat-tab *ngIf="role == 'DESIGNER'">
+                      <ng-template mat-tab-label>
+                        <mat-icon>person_outline</mat-icon>
+                        <span >Profile</span>
+                      </ng-template>
+                        <div class="dtl-body pt-2 pb-2 p-4">
+                          <div class="d-flex align-items-center justify-content-between">
+                            <h3 class="font-weight-500 mb-3 h3 mt-3">Profile</h3>
+                            
+                            
+                          </div>
+                          <div class="table-responsive">
+                            <table>
+                              <tr>
+                                <td class="p-0">
+                                  <table class="w-100">
+                                    <tr >
+                                      <td class="border-0"><span class="text-black">Designer 1</span></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="border-0"  ><span class="text-black">First Name:</span></td>
+                                      <td class="border-0"><span>{{designerprofiledata?.designerProfile?.firstName1}}</span></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="border-0"><span class="text-black">Last Name:</span></td>
+                                      <td class="border-0"><span>{{designerprofiledata?.designerProfile?.lastName1}}</span></td>
+                                    </tr>
+                                  </table>
+                                </td>
+                                <td class="p-0">
+                                  <table class="w-100">
+                                    <tr >
+                                      <td class="border-0"><span class="text-black">Designer 2</span></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="border-0"  ><span class="text-black">First Name:</span></td>
+                                      <td class="border-0"><span>{{designerprofiledata?.designerProfile?.firstName2}}</span></td>
+                                    </tr>
+                                    <tr>
+                                      <td class="border-0"><span class="text-black">Last Name:</span></td>
+                                      <td class="border-0"><span>{{designerprofiledata?.designerProfile?.lastName2}}</span></td>
+                                    </tr>
+                                  </table>
+                                </td>
+                              </tr>
+                              <!-- <tr >
+                                <td class="border-0"><span class="text-black">Designer 2</span></td>
+                              </tr>
+                              <tr >
+                                <td class="border-0"  ><span class="text-black">First Name:</span></td>
+                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.firstName2}}</span></td>
+                              </tr>
+                              <tr >
+                                <td class="border-0"><span class="text-black">Last Name:</span></td>
+                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.lastName2}}</span></td>
+                              </tr>-->
+                              <tr > 
+                                <td class="border-0" ><span class="text-black">Email:</span></td>
+                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.email}}</span></td>
+                              </tr>
+                              <tr>
+                                <td class="border-0"><span class="text-black">Gender:</span></td>
+                                <td class="border-0"><span class="text-capitalize">{{designerprofiledata?.designerProfile?.gender}}</span></td>
+                              </tr>
+                              <tr >
+                                <td class="border-0"  ><span class="text-black">Mobile No:</span></td>
+                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.mobileNo}}</span></td>
+                              </tr>
+                              <tr  >
+                                <td class="border-0" ><span class="text-black">DOB:</span></td>
+                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.dob}}</span></td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                        
+                    </mat-tab>
+                    <mat-tab *ngIf="role == 'DESIGNER'">
+                      <ng-template mat-tab-label>
+                        <mat-icon>people</mat-icon>
+                        <span>Social</span>
+                      </ng-template>
+                      <div class="table-responsive" *ngIf="designerprofiledata?.designerPersonalInfoEntity">
+                        <table>
+                          <!-- <tr  >
+                            <td class="border-0"  ><span class="text-black">Achievements:</span></td>
+                            <td class="border-0"  [ngClass]="{ 'd-none': designerprofiledata?.socialProfile?.achievements.length > 100}"><div class="description_text" >{{designerprofiledata?.socialProfile?.achievements}} </div></td>
+                            <td class="border-0" *ngIf="designerprofiledata?.socialProfile?.achievements.length > 100"><div class="description_text"  [ngClass]="{ 'visible': showmore1}">{{designerprofiledata?.socialProfile?.achievements}} </div><a (click)="showmore1 = !showmore1" *ngIf="designerprofiledata?.socialProfile?.achievements" class="text-primary">{{showmore1 ? 'Show less' : 'Show more'}}</a></td>
+                          </tr> -->
+                          <tr >
+                            <td class="border-0" ><span class="text-black">Address:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.socialProfile?.address}}</span></td>
+                          </tr>
+                          <tr >
+                            <td class="border-0" ><span class="text-black">Description:</span></td>
+                            <td class="border-0"  [ngClass]="{ 'd-none': designerprofiledata?.socialProfile?.description.length > 100}"><div class="description_text" >{{designerprofiledata?.socialProfile?.description}} </div></td>
+                            <td class="border-0" *ngIf="designerprofiledata?.socialProfile?.description.length > 100"><div class="description_text"  [ngClass]="{ 'visible': showmore}">{{designerprofiledata?.socialProfile?.description}} </div><a (click)="showmore = !showmore" class="text-primary" *ngIf="designerprofiledata?.socialProfile?.description">{{showmore ? 'Show less' : 'Show more'}}</a></td>
+                          </tr>
+                          <tr >
+                            <td class="border-0" ><span class="text-black">Facebook Link:</span></td>
+                            <td class="border-0"><span class="text-capitalize">{{designerprofiledata?.socialProfile?.facebookLink}}</span></td>
+                          </tr>
+                          <tr >
+                            <td class="border-0"><span class="text-black">Instagram Link:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.socialProfile?.instagramLink}}</span></td>
+                          </tr>
+                          <tr >
+                            <td class="border-0"><span class="text-black">Youtube Link:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.socialProfile?.youtubeLink}}</span></td>
+                          </tr>
+                          <tr >
+                            <td class="border-0" ><span class="text-black">Website URL:</span></td>
+                            <td class="border-0"><span class="text-capitalize">{{designerprofiledata?.socialProfile?.facebookLink}}</span></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </mat-tab>
+                    <mat-tab *ngIf="role == 'DESIGNER'">
+                      <ng-template mat-tab-label>
+                        <mat-icon>account_balance</mat-icon>
+                        <span>Bank Details</span>
+                      </ng-template>
+                      <div class="table-responsive" *ngIf="designerprofiledata?.designerPersonalInfoEntity">
+                        <table>
+                          <tr>
+                            <td class="border-0"  ><span class="text-black">Account Number:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.designerPersonalInfoEntity?.bankDetails?.accountNumber}}</span></td>
+                          </tr>
+                          <tr>
+                            <td class="border-0" ><span class="text-black">Bank Name:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.designerPersonalInfoEntity?.bankDetails?.bankName}}</span></td>
+                          </tr>
+                          <tr>
+                            <td class="border-0" ><span class="text-black">Ifsc Code:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.designerPersonalInfoEntity?.bankDetails?.ifscCode}}</span></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </mat-tab>
+                    <mat-tab *ngIf="role == 'DESIGNER'">
+                      <ng-template mat-tab-label>
+                        <mat-icon>description</mat-icon>
+                        <span>More</span>
+                      </ng-template>
+                      <div class="table-responsive" *ngIf="designerprofiledata?.designerPersonalInfoEntity">
+
+                        <table>
+                          
+                          <tr >
+                            <td class="border-0"><span class="text-black">Firm Name:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.boutiqueProfile?.firmName}}</span></td>
+                          </tr>
+                          <tr >
+                            <td class="border-0"><span class="text-black">GST in:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.boutiqueProfile?.gstin}}</span></td>
+                          </tr>
+                          <tr >
+                            <td class="border-0"><span class="text-black">Operating City:</span></td>
+                            <td class="border-0" ><span class="text-capitalize">{{designerprofiledata?.boutiqueProfile?.operatingCity}}</span></td>
+                          </tr>
+                          <tr>
+                            <td class="border-0"  ><span class="text-black">Designer Category:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.boutiqueProfile?.professionalCategory}}</span></td>
+                          </tr>
+                          <!-- <tr >
+                            <td class="border-0"><span class="text-black">Year Of Operation:</span></td>
+                            <td class="border-0"><span>{{designerprofiledata?.boutiqueProfile?.yearOfOperation}}</span></td>
+                          </tr> -->
+                        </table>
+                      </div>
+                    </mat-tab>
+                    <!-- <mat-tab *ngIf="role == 'DESIGNER'">
+                      <ng-template mat-tab-label>
+                        <mat-icon>settings</mat-icon>
+                        <span>Permission</span>
+                      </ng-template>
+                    </mat-tab> -->
+                  </mat-tab-group>
+                  <p>
+                    <ion-button *ngIf="role == 'DESIGNER'" type="button" (click)="openDesignerProfilemodal('designerprofile_modal', designerprofiledata, '');" class="custom-btn float-right">
+                      Edit
+                    </ion-button>
+                    <ion-button *ngIf="role == 'ADMIN'"    type="button"   (click)="openAdminProfilemodal('adminprofile_modal', adminprofiledata, '');" class="custom-btn float-right">
+                      Edit
+                    </ion-button>
+                    </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</ion-content>

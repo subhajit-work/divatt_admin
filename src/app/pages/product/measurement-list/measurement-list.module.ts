@@ -1,0 +1,21 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { IonicModule } from '@ionic/angular';
+
+import { MeasurementListPageRoutingModule } from './measurement-list-routing.module';
+
+import { MeasurementListPage } from './measurement-list.page';
+import { SharedModule } from 'src/app/shared/shared.module';
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    SharedModule,
+    MeasurementListPageRoutingModule
+  ],
+  declarations: [MeasurementListPage]
+})
+export class MeasurementListPageModule {}

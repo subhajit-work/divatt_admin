@@ -1,0 +1,223 @@
+<common-header></common-header>
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper profile-page">
+        <div class="container-fluid">
+          <div class="page-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-header-left">
+                        <h3>Designer View</h3>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-right">
+                      <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                              <mat-icon>home</mat-icon>
+                          </a></li>
+                      <li class="breadcrumb-item">
+                        Designer List
+                      </li>
+                      <li class="breadcrumb-item active">
+                        Designer View
+                      </li>
+                  </ol>
+              </div>
+            </div>
+        </div>
+          <div class="row">
+            <div class="card">
+              <form  #AdminUpdate="ngForm" (ngSubmit)="onSubmitAdminUpdateForm(AdminUpdate)">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="profile-details text-center">
+                      <img [src]="designerData?.designerProfile?.profilePic!= null ? designerData?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="" class="img-fluid img-90 rounded-circle blur-up lazyloaded">
+                      <p class="fullname mt-2">{{designerData?.designerName}}</p>
+                      <p class="text-muted  text-black text-capitalize d-flex justify-content-center" *ngIf="!designerData?.isDeleted">
+                        <span class="status" [ngClass]="{ 'warning': designerData?.profileStatus == 'SUBMITTED' , 'danger': designerData?.profileStatus == 'REJECTED','success': designerData?.profileStatus == 'COMPLETED','success': designerData?.profileStatus == 'APPROVE'}">
+                        {{designerData?.profileStatus}}
+                      </span></p>
+                      <p class="text-muted  text-black text-capitalize d-flex justify-content-center" *ngIf="designerData?.isDeleted">
+                        <span class="status danger">
+                        Deleted
+                      </span></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <h3 class="font-weight-bold">Profile Information</h3>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>First Name : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.firstName}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>Last Name : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.lastName}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <!-- Display Name -->
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Display Name</mat-label>
+                            <input matInput  name="displayName" [(ngModel)] = "model.displayName" required [disabled]="designerData?.isDeleted">
+                          </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>Date Of Birth : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.dob}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>gender : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.gender}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>email : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.email}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>mobile No : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.mobileNo}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>Alt-mobile No : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.altMobileNo}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>Eduction qualification : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.qualification}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>marital Status : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerProfile?.maritalStatus}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>address : </ion-label>
+                        <ion-note slot="end">{{designerData?.socialProfile?.address}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" >
+                      <div class="form-group">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Select Designer Category</mat-label>
+                          <mat-select name="designerCategory" [(ngModel)]="model.designerCategory" (selectionChange)="selectLabel(model.displayCategory)" required [disabled]="designerData?.isDeleted">
+                            <mat-option *ngFor="let Lebel of Lebellist" [value]="Lebel">{{Lebel.Name}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>                    
+                  </div>
+                  <div class="row" *ngIf="designerData?.designerPersonalInfoEntity">
+                    <h3 class="font-weight-bold">Personal Information</h3>
+                  </div>
+                  <div class="row" *ngIf="designerData?.designerPersonalInfoEntity">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>bank Name : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerPersonalInfoEntity?.bankDetails?.bankName}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>account Number : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerPersonalInfoEntity?.bankDetails?.accountNumber}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>ifsc Code : </ion-label>
+                        <ion-note slot="end">{{designerData?.designerPersonalInfoEntity?.bankDetails?.ifscCode}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>aadhar Card Image : </ion-label>
+                        <ion-note slot="end"><img [src]="designerData?.designerPersonalInfoEntity?.designerDocuments?.aadharCard" alt=""></ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>pan Card image : </ion-label>
+                        <ion-note slot="end"><img [src]="designerData?.designerPersonalInfoEntity?.designerDocuments?.panCard" alt=""> </ion-note>
+                      </ion-item>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="designerData?.socialProfile">
+                    <h3 class="font-weight-bold">Social Profile Information</h3>
+                  </div>
+                  <div class="row" *ngIf="designerData?.socialProfile">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>facebook Link : </ion-label>
+                        <ion-note slot="end">{{designerData?.socialProfile?.facebookLink}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>instagram Link : </ion-label>
+                        <ion-note slot="end">{{designerData?.socialProfile?.instagramLink}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <ion-item>
+                        <ion-label>youtube Link : </ion-label>
+                        <ion-note slot="end">{{designerData?.socialProfile?.youtubeLink}}</ion-note>
+                      </ion-item>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-3" *ngIf="designerData?.socialProfile?.achievements">
+                      <div class="d-flex overflow-hidden">
+                        <div class="ion-label w-40">
+                          achievements :
+                        </div> 
+                        <div [ngClass]="{ 'd-none': designerData?.socialProfile?.achievements.length > 100}" class="description_text ion-label w-60">{{designerData?.socialProfile?.achievements}}</div>
+                        <div *ngIf="designerData?.socialProfile?.achievements.length > 100" class="ion-label descption w-60"><div class="description_text"  [ngClass]="{ 'visible': showmore1}">{{designerData?.socialProfile?.achievements}} </div><a (click)="showmore1 = !showmore1" *ngIf="designerData?.socialProfile?.achievements" class="text-primary">{{showmore1 ? 'Show less' : 'Show more'}}</a></div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 mt-3" *ngIf="designerData?.socialProfile?.achievements">
+                      <div class="d-flex overflow-hidden">
+                        <div class="ion-label w-40">
+                          description :
+                        </div> 
+                        <div [ngClass]="{ 'd-none': designerData?.socialProfile?.description.length > 100}" class="description_text ion-label w-60">{{designerData?.socialProfile?.description}}</div>
+                        <div *ngIf="designerData?.socialProfile?.description.length > 100" class="ion-label descption w-60"><div class="description_text"  [ngClass]="{ 'visible': showmore2}">{{designerData?.socialProfile?.description}} </div><a (click)="showmore2 = !showmore2" *ngIf="designerData?.socialProfile?.achievements" class="text-primary">{{showmore2 ? 'Show less' : 'Show more'}}</a></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3 justify-content-between">
+                    <ion-button  class="custom-btn w-fit" [routerLink]="['/', 'designer-list']" >
+                      Back To LIst
+                    </ion-button>
+                    <ion-button class="custom-btn w-fit" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!AdminUpdate.valid">
+                      <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                      Update
+                    </ion-button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</ion-content>
+

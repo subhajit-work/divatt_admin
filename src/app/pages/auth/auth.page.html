@@ -1,0 +1,281 @@
+<ion-content>
+  <div class="page-wrapper">
+    <div class="authentication-box">
+      <div class="form-layout">
+        <div class="form-wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-5 p-0 card-left">
+                <div class="card bg-primary">
+                  <div class="svg-icon">
+                    <img src="assets/images/t.png" width="100%" />
+                  </div>
+                  <div class="single-item">
+                    <ion-slides #slider pager="true" [options]="slideOpts">
+                      <ion-slide *ngFor="let data of owlcarousel">
+                        <div class="slide">
+                          <h3>{{data.title}}</h3>
+                          <p>{{data.desc}}</p>
+                        </div>
+                      </ion-slide>
+                    </ion-slides>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7 p-0 card-right">
+                <div class="card tab2-card">
+                  <div class="card-body">
+                    <mat-tab-group class="no-pad" (selectedTabChange)="tabClick($event)">
+                      <mat-tab>
+                        <ng-template mat-tab-label>
+                          <mat-icon>login</mat-icon>
+                          <span>Login</span>
+                        </ng-template>
+                        <div class="tab-pane fade active show">
+                          <form #loginForm="ngForm" (ngSubmit)="onSubmitForm(loginForm)"
+                            (keyup.enter)="onSubmitForm(loginForm)" class="form-horizontal auth-form">
+                            <div class="form-group">
+                            <div class="d-flex align-items-center justify-content-center">
+                            <div class="radio_container">
+                              
+                              <input type="radio" name="radio" id="Designer" checked (change)="selectLoginType('DESIGNER')">
+                              <label for="Designer">Designer</label>
+                              <input type="radio" name="radio" id="Admin" (change)="selectLoginType('ADMIN')">
+                              <label for="Admin">Admin</label>
+                            </div>
+                          </div> 
+                            </div>
+                            <input type="hidden" [(ngModel)]="type" name="type">
+                            <div class="form-group">
+                              <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                                      <div *ngIf="f.username.errors.required">Email is required</div>
+                                                  </div> -->
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Username</mat-label>
+                                <input matInput [(ngModel)]="login.email" name="email"
+                                  [ngClass]="{'disabled' : btnloader}" />
+                              </mat-form-field>
+                            </div>
+                            <div class="form-group position-relative mb-2">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Password</mat-label>
+                                <input matInput [type]="hide ? 'password' : 'text'" name="password"
+                                  [(ngModel)]="login.password" />
+                                <a mat-icon-button matSuffix (click)="hide = !hide"
+                                  [ngClass]="{'disabled' : btnloader}" [attr.aria-label]="'Hide password'"
+                                  [attr.aria-pressed]="hide">
+                                  <mat-icon class="text-black">{{hide ? 'visibility_off' :
+                                    'visibility'}}</mat-icon>
+                                </a>
+                              </mat-form-field>
+                            </div>
+                            <div>
+                              <p class="error">{{message}}</p>
+                            </div>
+                            <div class="form-button d-flex justify-content-between align-items-center mt-2">
+                              <!-- <button class="btn btn-primary text-uppercase" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!loginForm.valid">
+                                <ion-spinner class="btnloader" name="crescent" *ngIf="btnloader"></ion-spinner>
+                                Login
+                              </button> -->
+                              <ion-button  class="bg-primary-color"  [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!loginForm.valid">
+                                <ion-spinner class="btnloader" name="crescent" *ngIf="btnloader"></ion-spinner>
+                                Login
+                              </ion-button>
+                              <a [routerLink]="'./forgot-password'" class="btn btn-default forgot-pass">
+                                Lost your password?</a>
+                            </div>
+                          </form>
+                        </div>
+                      </mat-tab>
+                      <mat-tab>
+                        <ng-template mat-tab-label>
+                          <mat-icon>person_outline</mat-icon>
+                          <span>Register</span>
+                        </ng-template>
+
+                        <form action="" #regform="ngForm" class="pt-0"  (ngSubmit)="onSubmitRegForm(regform)" required [ngClass]="{'disabled' : btnloader}">
+                          
+                          <div class="container p-0 overflow-hidden">
+                            <div class="row">
+                              <!-- Boutique Name -->
+                              <div class="form-group col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-0">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>Boutique Name</mat-label>
+                                  <input matInput [(ngModel)]="model.boutiqueName" name="boutiqueName"
+                                    [ngClass]="{'disabled' : btnloader}" required/>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-lg-12 col-xs-12 mt-2">
+                               <p class="text-left text-black mb-1 font-weight-600">Designer 1</p> 
+                              </div>
+                              <!-- First Name -->
+                              <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>First Name</mat-label>
+                                  <input matInput [(ngModel)]="model.firstName1" name="firstName1"
+                                    [ngClass]="{'disabled' : btnloader}" required/>
+                                </mat-form-field>
+                              </div>
+                              <!-- Last Name -->
+                              <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12 mb-2">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>Last Name</mat-label>
+                                  <input matInput [(ngModel)]="model.lastName1" name="lastName1"  required/>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-lg-12 col-xs-12">
+                                <p class="text-left text-black mb-1 font-weight-600">Designer 2</p> 
+                              </div>
+                               <!-- First2 Name -->
+                               <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12 mb-1">
+                                 <mat-form-field class="example-full-width" appearance="outline">
+                                   <mat-label>First Name</mat-label>
+                                   <input matInput [(ngModel)]="model.firstName2" name="firstName2"
+                                     [ngClass]="{'disabled' : btnloader}" />
+                                 </mat-form-field>
+                               </div>
+                               <!-- Last2 Name -->
+                               <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12 mb-1">
+                                 <mat-form-field class="example-full-width" appearance="outline">
+                                   <mat-label>Last Name</mat-label>
+                                   <input matInput [(ngModel)]="model.lastName2" name="lastName2"  />
+                                 </mat-form-field>
+                               </div>
+                               <div class="col-xs-12 col-md-12">
+                                 <p class="text-left text-black font-xs"><b>Note :</b> Display name will be your name or combination of both designer names.</p>
+                               </div>
+                            <!-- Email -->
+                              <div class="form-group col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>Email</mat-label>
+                                  <input matInput [(ngModel)]="model.email" name="email" type="email" pattern="^[a-z0-9._%+-]+@[a-z.-]+\.[a-z]{2,4}$" [ngClass]="{'disabled' : btnloader}" required/>
+                                </mat-form-field>
+                              </div>
+                              <input type="hidden" [(ngModel)]="model.email" name="email">
+                              <!-- Password -->
+                              <div class="form-group col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Password</mat-label>
+                                  <input matInput [type]="hide2 ? 'password' : 'text'" name="password"
+                                    [(ngModel)]="model.password" (keyup)="passwordvalid(model.password,model.conformpassword)" required/>
+                                  <a mat-icon-button matSuffix (click)="hide2 = !hide2"
+                                    [ngClass]="{'disabled' : btnloader}" [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="hide2">
+                                    <mat-icon class="text-black">{{hide ? 'visibility_off' :
+                                      'visibility'}}</mat-icon>
+                                  </a>
+                                </mat-form-field>
+                              </div>
+                              <!-- Conform Password-->
+                              <div class="form-group col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Conform Password</mat-label>
+                                  <input matInput [type]="hide3 ? 'password' : 'text'" name="conformpassword"
+                                    [(ngModel)]="model.conformpassword" (keyup)="passwordvalid(model.password,model.conformpassword)" required/>
+                                  <a mat-icon-button matSuffix (click)="hide3 = !hide3"
+                                    [ngClass]="{'disabled' : btnloader}" [attr.aria-label]="'Hide password'"
+                                    [attr.aria-pressed]="hide3">
+                                    <mat-icon class="text-black">{{hide3 ? 'visibility_off' :
+                                      'visibility'}}</mat-icon>
+                                  </a>
+                                </mat-form-field>
+                              </div>
+                              <p class="text-danger text-center">{{errormsg}}</p>
+                              <!-- Display Name -->
+                              <!-- <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>Display Name</mat-label>
+                                  <input matInput [(ngModel)]="model.displayName" name="displayName"
+                                    [ngClass]="{'disabled' : btnloader}" required/>
+                                </mat-form-field>
+                              </div> -->
+                              <!-- Phone No -->
+                              <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>Phone No</mat-label>
+                                  <input matInput min="1" [(ngModel)]="model.mobile" type="number" name="mobile" [ngClass]="{'disabled' : btnloader}" pattern="^((\\+91-?)|0)?[0-9]{10}$"  onKeyPress="if(this.value.length==10) {return false;}" maxlength="10" required/>
+                                </mat-form-field>
+                              </div>
+                              <!-- Alt Phone No -->
+                              <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>Alt Phone No</mat-label>
+                                  <input matInput min="1" [(ngModel)]="model.altmobile" type="number" name="altmobile" [ngClass]="{'disabled' : btnloader}" pattern="^((\\+91-?)|0)?[0-9]{10}$" onKeyPress="if(this.value.length==10) {return false;}" maxlength="10"/>
+                                </mat-form-field>
+                              </div>
+                              <!-- DOB -->
+                              <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Date of Birth</mat-label>
+                                  <input matInput (dateChange)="dateFormatChange('dob', $event)" [max]="maxDate" readonly (dateInput)="dateFormatChange('dob', $event)" [matDatepicker]="dob" placeholder="Choose a date" name="dateofbirth" [(ngModel)]="model.dateofbirth" required>
+                                  <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                                  <mat-datepicker #dob></mat-datepicker>
+                                </mat-form-field>
+                                <input type="hidden" name="dob" [(ngModel)]="model.dob">
+                              </div>
+                              <!--  Marital Status -->
+                              <!-- <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                                <div class="form-item ngsel">
+                                  <ng-select [items]="maritalstatuslist" 
+                                          bindLabel="name" 
+                                          name="maritalStatus"
+                                          placeholder="Select marital status"
+                                          bindValue="name" 
+                                          [(ngModel)]="model.maritalStatus"
+                                          (change)="ngsel(model.adrCountry)"
+                                          required>
+                                  </ng-select>
+                                  <label>Select marital status </label>
+                                </div>
+                              </div> -->
+                              
+                              <!-- Qualification -->
+                              <!-- <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>Qualification</mat-label>
+                                  <input matInput [(ngModel)]="model.qualification" name="qualification"
+                                    [ngClass]="{'disabled' : btnloader}"/>
+                                </mat-form-field>
+                              </div> -->
+                                <div class="form-group col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                                  <label class="mb-1">Gender</label>
+                                  <mat-radio-group [(ngModel)]="model.gender" name="gender" required >
+                                    <mat-radio-button value="male" (change)="radioChange($event)">Male</mat-radio-button>&nbsp;
+                                    <mat-radio-button value="female" (change)="radioChange($event)">Female</mat-radio-button>
+                                  </mat-radio-group>
+                                </div>                        
+                              <div class="d-flex align-items-center">
+                                <input type="checkbox" value="termscondition" name="termscondition" [(ngModel)]="model.termscondition" id="termscondition" required>&nbsp;
+                                <label for="termscondition">
+                                  <div class="text-dark">I agree all statements in&nbsp;
+                                    <a href="" class="pull-right">    Terms & Conditions</a>
+                                  </div>
+                              </label>
+                              </div>
+                            
+                            </div>
+                          </div>
+                          <p class="error mt-2">{{message2}}</p>
+                          <div class="form-button mt-2">
+                            <!-- <button class="btn btn-primary text-uppercase" [ngClass]="{'disabled' : btnloader2}" type="submit"  [disabled]="!regform.valid">
+                              <ion-spinner class="btnloader" name="crescent" *ngIf="btnloader2"></ion-spinner>
+                              Register
+                            </button> -->
+                            <ion-button  class="bg-primary-color"    type="submit"  [disabled]="!regform.valid">
+                              <ion-spinner class="btnloader" name="crescent" *ngIf="btnloader2"></ion-spinner>
+                              Register
+                            </ion-button>
+                          </div>
+                        </form>
+                      </mat-tab>
+                    </mat-tab-group>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

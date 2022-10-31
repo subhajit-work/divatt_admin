@@ -1,0 +1,98 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="form-layout">
+        <div class="form-wrapper">
+          <div class="container-fluid">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="page-header-left">
+                            <h3>hsn
+                                <!-- <small>Divatt Admin panel</small> -->
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <ol class="breadcrumb float-right">
+                          <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                  <mat-icon>home</mat-icon>
+                              </a></li>
+                          <li class="breadcrumb-item active">
+                            {{parms_action_name}} HSN
+                          </li>
+                      </ol>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="row justify-content-center" *ngIf="loader"><mat-spinner class="form-get-loader"></mat-spinner></div>
+          <div class="card card-box" *ngIf="!loader">
+            <div class="card-header">
+                <div class="card-header-tittle">
+                  {{parms_action_name}} HSN
+                </div>
+                
+            </div>
+            
+            <form action="" #hsn="ngForm" (ngSubmit)="onSubmitCategortForm(hsn)" >
+              <div class="card-body">
+                <div class="col-md-6 m-auto">
+                    <ion-grid>
+                      <ion-row>
+                        <!-- hsnCode -->
+                        <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                          <div class="form-group">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                              <mat-label>HSN Code</mat-label>
+                              <input matInput  name="hsnCode" [(ngModel)] = "model.hsnCode" required>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- hsnCode -->
+                        <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                          <div class="form-group">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                              <mat-label>Tax Value</mat-label>
+                              <input matInput  name="taxValue" [(ngModel)] = "model.taxValue" required>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- Desciption -->
+                        <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                          <div class="form-group">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                              <mat-label>Desciption</mat-label>
+                              <textarea matInput  name="description" [(ngModel)] = "model.description" required></textarea>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div></div>
+                <div>
+                  <ion-button class="custom-btn" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!hsn.valid">
+                    <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                    Save
+                  </ion-button>
+                  <ion-button color="danger" [routerLink]="['/', 'hsn-list']">
+                    Cancel
+                  </ion-button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

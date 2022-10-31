@@ -1,0 +1,1011 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="add-designer-product">
+        <div class="container-fluid">
+          <div class="page-header">
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="page-header-left">
+                          <h3>Product
+                              <!-- <small>Divatt Admin panel</small> -->
+                          </h3>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                <mat-icon>home</mat-icon>
+                            </a>
+                          </li>
+                        <li class="breadcrumb-item active">
+                          Product Management
+                        </li>
+                        <li class="breadcrumb-item active">
+                          {{action}} Product
+                        </li>
+                    </ol>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="form-layout">
+          <div class="form-wrapper">
+            <div class="card-outer">
+              <div class="row justify-content-center" *ngIf="loader"><mat-spinner class="form-get-loader"></mat-spinner></div>
+              <div class="card card-box" *ngIf="!loader">
+                  <div class="card-header">
+                      <div class="card-header-tittle">
+                          {{action}} Product
+                      </div>
+                      <div class="card-header-action">
+                      </div>
+                  </div>
+                  <form action="" #designerproduct="ngForm" (ngSubmit)="onSubmitDesigproductForm(designerproduct)">
+                    <div class="card-body">
+                      <div class="form-wrapper">
+
+                        <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+                          <!-- Product Category -->
+                          <mat-step>
+                            <ng-template matStepLabel>Product Category</ng-template>
+                            <div class="mat-stepper-form">
+                              <ion-grid>
+                                <ion-row>
+                                  <!-- Select Category -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="categoryslist" 
+                                              [virtualScroll]="true"
+                                              bindLabel="categoryName" 
+                                              name="categoryId"
+                                              placeholder="Select Category"
+                                              bindValue="id" 
+                                              [(ngModel)]="productdtl.categoryId"
+                                              (change)="categorySelected($event.categoryName,productdtl.categoryId,'onchange')"
+                                              required>
+                                      </ng-select>
+                                      <label>Select Category <sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Select sub Category -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="subcategorylist" 
+                                              bindLabel="categoryName" 
+                                              name="subCategoryId"
+                                              placeholder="Select Sub Category"
+                                              bindValue="id" 
+                                              [(ngModel)]="productdtl.subCategoryId"
+                                              (change)="SubcatSelected($event.categoryName,productdtl.subCategoryId)"
+                                              required>
+                                      </ng-select>
+                                      <label>Select Subcategory <sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                              </ion-grid>
+                            </div>
+                            <!-- <div>
+                              <button mat-button matStepperNext>Next</button>
+                            </div> -->
+                          </mat-step>
+                          <!-- Product Details -->
+                          <mat-step>
+                            <ng-template matStepLabel>Product Details</ng-template>
+                            <div class="mat-stepper-form">
+                              <!-- <ion-grid> -->
+                                <div class="row">
+                                  <!-- 
+                                    <img src="https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018" *ngIf="!close" alt=""> and Color -->
+                                  <div>
+                                    <p class="text-bold d-flex align-items-center"><span>Choose images for</span>   <ion-spinner name="dots" class="text-primary ml-2" *ngIf="uplodeimgloader"></ion-spinner></p>
+                                  </div>
+                                  <!-- Front view -->
+                                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-item">
+                                      
+                                      <div class="custom-file-designer">
+                                        
+                                        <input class="invisible w-0 h-0" id="singleFileUploadfront" type="file" name="imageUrl"  accept="image/*" (change)="handleInputChange($event,'front')" required>
+                                        <label class="" for="singleFileUploadfront">
+                                        <img  [src]="productdtl.front!= null ? productdtl.front : 'https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018'"class="uplodeimgpev"/><span>Front view <sup class="text-danger">*</sup></span> </label>
+                                      </div>
+                                      <p class="text-center" *ngIf="productdtl.front">
+                                        <a (click)="clearfile('front')" class="curser-pointer">
+                                          <mat-icon class="text-danger">clear</mat-icon>
+                                        </a>
+                                      </p>
+                                      
+                                      <!-- <p class="mt-1"><label><input type="radio"  value="true" name="isPrimary"  (change)="isprimary('image1',$event.target.checked)"> Set default</label></p> -->
+                                    </div>
+                                  </div>
+                                  <!-- Back view -->
+                                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-item">
+                                      <div class="custom-file-designer">
+                                        <input class="invisible w-0 h-0" id="singleFileUploadback" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'back')">
+                                        <label class="" for="singleFileUploadback">
+                                        <img [src]="back" class="uplodeimgpev" *ngIf="back"/>
+                                        <img src="https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018" *ngIf="!back" alt="">
+                                        <span>Back view</span>  
+                                      </label>
+                                      </div>
+                                      <p class="text-center" *ngIf="back">
+                                        <a (click)="clearfile('back')" class="curser-pointer">
+                                          <mat-icon class="text-danger">clear</mat-icon>
+                                        </a>
+                                      </p>
+                                      <!-- <p class="mt-1"><label><input type="radio"  value="true" name="isPrimary"  (change)="isprimary('image1',$event.target.checked)"> Set default</label></p> -->
+                                    </div>
+                                  </div>
+                                  <!-- Side view -->
+                                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-item">
+                                      <div class="custom-file-designer">
+                                        <input class="invisible w-0 h-0" id="singleFileUploadside" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'side')">
+                                        <label class="" for="singleFileUploadside">
+                                        <img [src]="side" class="uplodeimgpev"  *ngIf="side"/>
+                                        <img src="https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018" *ngIf="!side" alt="">
+                                        <span>Side view</span> 
+                                      </label>
+                                      </div>
+                                      <p class="text-center" *ngIf="side">
+                                        <a (click)="clearfile('side')" class="curser-pointer">
+                                          <mat-icon class="text-danger">clear</mat-icon>
+                                        </a>
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <!-- Close up shot -->
+                                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-item">
+                                      <div class="custom-file-designer">
+                                        <input class="invisible w-0 h-0" id="singleFileUploadclose" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'close')">
+                                        <label class="" for="singleFileUploadclose">
+                                        <img [src]="close" class="uplodeimgpev" *ngIf="close"/>
+                                        <img src="https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018" *ngIf="!close" alt="">
+                                        <span>Close up shot</span> 
+                                        </label>
+                                      </div>
+                                      <p class="text-center" *ngIf="close">
+                                        <a (click)="clearfile('close')" class="curser-pointer">
+                                          <mat-icon class="text-danger">clear</mat-icon>
+                                        </a>
+                                      </p>
+                                      <!-- <p class="mt-1"><label><input type="radio"  value="true" name="isPrimary"  (change)="isprimary('image1',$event.target.checked)"> Set default</label></p> -->
+                                    </div>
+                                  </div>
+                                  <!-- Neck design view -->
+                                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-item">
+                                      <div class="custom-file-designer">
+                                        <input class="invisible w-0 h-0" id="singleFileUploadneck" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'neck')">
+                                        <label class="" for="singleFileUploadneck">
+                                        <img [src]="neck" class="uplodeimgpev" *ngIf="neck"/>
+                                        <img src="https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018" *ngIf="!neck" alt="">
+                                        <span>Neck design view</span> 
+                                        </label>
+                                      </div>
+                                      <p class="text-center" *ngIf="neck">
+                                        <a (click)="clearfile('neck')" class="curser-pointer">
+                                          <mat-icon class="text-danger">clear</mat-icon>
+                                        </a>
+                                      </p>
+                                      <!-- <p class="mt-1"><label><input type="radio"  value="true" name="isPrimary"  (change)="isprimary('image1',$event.target.checked)"> Set default</label></p> -->
+                                    </div>
+                                  </div>
+                                  <!-- More1 image6-->
+                                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-item">
+                                      <div class="custom-file-designer">
+                                        <input class="invisible w-0 h-0" id="singleFileUploadimage6" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'image6')">
+                                        <label class="" for="singleFileUploadimage6">
+                                        <img [src]="image6" class="uplodeimgpev" *ngIf="image6"/>
+                                        <img src="https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018" *ngIf="!image6" alt="">
+                                        <!-- <span>Back view</span>   -->
+                                      </label>
+                                      </div>
+                                      <p class="text-center" *ngIf="image6">
+                                        <a (click)="clearfile('image6')" class="curser-pointer">
+                                          <mat-icon class="text-danger">clear</mat-icon>
+                                        </a>
+                                      </p>
+                                      <!-- <p class="mt-1"><label><input type="radio"  value="true" name="isPrimary"  (change)="isprimary('image1',$event.target.checked)"> Set default</label></p> -->
+                                    </div>
+                                  </div>
+                                  <!-- More1 image7-->
+                                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-item">
+                                      <div class="custom-file-designer">
+                                        <input class="invisible w-0 h-0" id="singleFileUploadimage7" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'image7')">
+                                        <label class="" for="singleFileUploadimage7">
+                                        <img [src]="image7" class="uplodeimgpev" *ngIf="image7"/>
+                                        <img src="https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018" *ngIf="!image7" alt="">
+                                        <!-- <span>Back view</span>   -->
+                                      </label>
+                                      </div>
+                                      <p class="text-center" *ngIf="image7">
+                                        <a (click)="clearfile('image7')" class="curser-pointer">
+                                          <mat-icon class="text-danger">clear</mat-icon>
+                                        </a>
+                                      </p>
+                                      <!-- <p class="mt-1"><label><input type="radio"  value="true" name="isPrimary"  (change)="isprimary('image1',$event.target.checked)"> Set default</label></p> -->
+                                    </div>
+                                  </div>
+                                  <!-- More1 image8-->
+                                  <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-item">
+                                      <div class="custom-file-designer">
+                                        <input class="invisible w-0 h-0" id="singleFileUploadimage8" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'image8')">
+                                        <label class="" for="singleFileUploadimage8">
+                                        <img [src]="image8" class="uplodeimgpev"  *ngIf="image8" />
+                                        <img src="https://ps.w.org/kama-thumbnail/assets/icon-256x256.png?rev=1627018" *ngIf="!image8" alt="">
+                                        <!-- <span>Back view</span>   -->
+                                      </label>
+                                      </div>
+                                      <p class="text-center" *ngIf="image8">
+                                        <a (click)="clearfile('image8')" class="curser-pointer">
+                                          <mat-icon class="text-danger">clear</mat-icon>
+                                        </a>
+                                      </p>
+                                      <!-- <p class="mt-1"><label><input type="radio"  value="true" name="isPrimary"  (change)="isprimary('image1',$event.target.checked)"> Set default</label></p> -->
+                                    </div>
+                                  </div>
+                                </div>
+                                 
+                              <!-- </ion-grid> -->
+                              <ion-grid>
+                                <ion-row>
+                                  <!-- Product Name -->
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Product Name</mat-label>
+                                        <textarea matInput [(ngModel)]="productdtl.productName" name="productName" required rows="4"></textarea>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Product Descption -->
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Product Descption</mat-label>
+                                        <textarea matInput placeholder="Fill some details about the product" [(ngModel)]="productdtl.productDescription" name="productDescription" required rows="4"></textarea>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  
+                                  <!-- Min Age -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Min Age</mat-label>
+                                        <input matInput type="number" min="0" max="99" name="min" [(ngModel)]="productdtl.min" onKeyPress="if(this.value.length == 2) return false;" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Max Age -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Max Age</mat-label>
+                                        <input matInput type="number" min="1" max="99" onKeyPress="if(this.value.length == 2) return false;" name="max" [(ngModel)]="productdtl.max" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Purchase Min -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Purchase min quantity</mat-label>
+                                        <input matInput type="number" min="0"   name="purchaseMin" [(ngModel)]="productdtl.purchaseMin"/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Purchase Max -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Purchase max quantity</mat-label>
+                                        <input matInput type="number" min="0"   name="purchaseMax" [(ngModel)]="productdtl.purchaseMax"/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!--  Gender:  -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="3"  size-lg="3">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="genderList" 
+                                              bindLabel="name" 
+                                              name="gender"
+                                              placeholder="Select Gender"
+                                              bindValue="name" 
+                                              [(ngModel)]="productdtl.gender"
+                                              (change)="ngsel(productdtl.gender)"
+                                              required>
+                                      </ng-select>
+                                      <label>Select Gender <sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+                                  <ion-col size-xs="12" size-sm="6" size-md="3"  size-lg="3">
+                                    <div class="form-item ngsel">
+                                      <!-- <ng-select [items]="colourlist" 
+                                              bindLabel="name" 
+                                              name="colour1"
+                                              placeholder="Select Colour"
+                                              bindValue="name" 
+                                              [(ngModel)]="productdtl.colour" 
+                                              (change)="ngsel(productdtl.colour)"
+                                              required>
+                                      </ng-select> -->
+                                      <ng-select [items]="colourlist" 
+                                              bindLabel="colorName" 
+                                              name="colour1"
+                                              placeholder="Select Colour"
+                                              bindValue="colorValue" 
+                                              [(ngModel)]="productdtl.colour" 
+                                              (change)="selectColor($event)"
+                                              required>
+                                      </ng-select>
+                                      <label>Select Colour <sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                              </ion-grid>
+                            </div>
+                            <!-- <div>
+                              <button mat-button matStepperNext>Next</button>
+                            </div> -->
+                          </mat-step>
+                          <!-- Product Description -->
+                          <mat-step>
+                            <ng-template matStepLabel>Product Specifications</ng-template>
+                            <div class="mat-stepper-form">
+                              <ion-grid>
+                                <ion-row>
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <p class="text-bold">Others Description</p>
+                                  </ion-col>
+                                  <!-- Product Details -->
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> Product Details</mat-label>
+                                        <textarea matInput type="text" [(ngModel)]="productdtl.productDetails" name="productDetails" required rows="4"></textarea>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Fitting Information -->
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> Fitting Information</mat-label>
+                                        <textarea matInput type="text" [(ngModel)]="productdtl.fittingInformation" name="fittingInformation" required rows="4"></textarea>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Style -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> Occassion</mat-label>
+                                        <input matInput type="text" [(ngModel)]="productdtl.Style" name="Style"/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  
+                                </ion-row>
+                                <ion-row>
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <p class="text-bold">Composition</p>
+                                  </ion-col>
+                                  <!-- Cotton -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> Cotton</mat-label>
+                                        <input matInput type="text" [(ngModel)]="productdtl.cotton" name="cotton" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Polystar -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> Polystar</mat-label>
+                                        <input matInput type="text" [(ngModel)]="productdtl.polystar" name="polystar" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Washing Information -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> Washing Information</mat-label>
+                                        <input matInput type="text" [(ngModel)]="productdtl.washingInformation" name="washingInformation" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                                <!-- <ion-row>
+                                  <ion-col size-xs="6" size-sm="6" size-md="6"  size-lg="6">
+                                    <p class="text-bold">Add Extra Specifications</p>
+                                  </ion-col>
+                                  <ion-col size-xs="6" size-sm="6" size-md="6"  size-lg="6">
+                                    <div class="text-right">
+                                      <ion-button (click)="addField()" class="custom-btn">
+                                        Add
+                                      </ion-button>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                                <ion-row *ngFor="let field of fields; let i = index;">
+                                  <ion-col size-xs="12" size-sm="6" size-md="5"  size-lg="5">
+                                    <div class="form-group d-flex align-items-center">
+                                    
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Specifications Name {{i + 1}}</mat-label>
+                                        <input matInput  [(ngModel)]="field.key"   type="text" name="key{{i}}" />
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <ion-col size-xs="12" size-sm="6" size-md="5"  size-lg="5">
+                                    <div class="form-group d-flex align-items-center">
+                                    
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Specifications {{i + 1}}</mat-label>
+                                        <input matInput  [(ngModel)]="field.value"   type="text" name="value{{i}}" />
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <ion-col size-xs="12" size-sm="6" size-md="2"  size-lg="2">
+                                    <div class="d-flex align-items-center justify-content-center pt-2">
+                                      <a (click)="removeField(i)" class="text-danger btn btn-default"  matTooltip="Remove Item"
+                                      matTooltipClass="bg-danger"><mat-icon>delete</mat-icon></a>
+                                    </div>
+                                    
+                                  </ion-col>
+                                </ion-row> -->
+                              </ion-grid>
+                            </div>
+                            <!-- <div>
+                              <button mat-button matStepperNext>Next</button>
+                            </div> -->
+                          </mat-step>
+                          <!-- Product Specification -->
+                          <mat-step>
+                            <ng-template matStepLabel>Product Extra Specification</ng-template>
+                            <div class="mat-stepper-form">
+                              <ion-grid *ngIf="editextraspecification">
+                                <p class="ion-text-center" *ngIf="!specificationlist">Please choose category first</p>
+                                <ion-row *ngFor="let itemSpc of specificationlist; let i = index; let first = first;">
+                                  <ion-col size-xs="12" size-sm="12" size-md="6"  size-lg="6">
+                                    <p class="text-bold">{{itemSpc?.name}}</p>
+                                    <input type="hidden" name="specificationKey{{i}}" [(ngModel)] = "itemSpc.name">
+                                  </ion-col>
+                                  <!-- Select option -->
+                                  <ion-col *ngIf="itemSpc.type == 'select'" size-xs="12" size-sm="12" size-md="6"  size-lg="6">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="itemSpc.option" 
+                                              bindLabel="name" 
+                                              name="specificationValue{{i}}"
+                                              placeholder="Select Category"
+                                              bindValue="name" 
+                                              [(ngModel)]="productdtl.extraSpecificationsvalue[i]"
+                                              required>
+                                      </ng-select>
+                                      <label>Select {{itemSpc?.name}} <sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+
+                                  <!-- Select option -->
+                                  <ion-col *ngIf="itemSpc.type == 'input'" size-xs="12" size-sm="12" size-md="6"  size-lg="6">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Fill the {{itemSpc?.name}}</mat-label>
+                                        <input matInput [(ngModel)]="productdtl.extraSpecificationsvalue[i]" name="specificationValue{{i}}" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                              </ion-grid>
+                              <ion-grid *ngIf="!editextraspecification">
+                                <p class="ion-text-center" *ngIf="!specificationlist">Please choose category first</p>
+                                <ion-row *ngFor="let itemSpc of specificationlist; let i = index; let first = first;">
+                                  <ion-col size-xs="12" size-sm="12" size-md="6"  size-lg="6">
+                                    <p class="text-bold">{{itemSpc?.name}}</p>
+                                    <input type="hidden" name="specificationKey{{i}}" [(ngModel)] = "itemSpc.name">
+                                  </ion-col>
+                                  <!-- Select option -->
+                                  <ion-col *ngIf="itemSpc.type == 'select'" size-xs="12" size-sm="12" size-md="6"  size-lg="6">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="itemSpc.option" 
+                                              bindLabel="name" 
+                                              name="specificationValue{{i}}"
+                                              placeholder="Select Category"
+                                              bindValue="name" 
+                                              ngModel
+                                              required>
+                                      </ng-select>
+                                      <label>Select {{itemSpc?.name}} <sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+
+                                  <!-- Select option -->
+                                  <ion-col *ngIf="itemSpc.type == 'input'" size-xs="12" size-sm="12" size-md="6"  size-lg="6">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Fill the {{itemSpc?.name}}</mat-label>
+                                        <input matInput ngModel name="specificationValue{{i}}" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                              </ion-grid>
+                            </div>
+                            <!-- <div>
+                              <button mat-button matStepperNext>Next</button>
+                            </div> -->
+                          </mat-step>
+                          <!-- Product Stock & Pricing -->
+                          <mat-step>
+                            <ng-template matStepLabel>Product Stock & Pricing</ng-template>
+                            <div class="mat-stepper-form">
+                              <ion-grid>
+                                <ion-row>
+                                <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                                    <div class="toggle-button">
+                                      <ion-label>Customization : </ion-label>
+                                      <ion-label>
+                                          <p class="onoff"><input type="checkbox" value="true" id="customization" name="customization" [(ngModel)]="productdtl.customization"><label for="customization"></label></p>
+                                      </ion-label>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Gift Wrap:  -->
+                                  <!-- <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                                    <div class="form-group  d-flex mt-2 radioBox">
+                                      Gift Wrap: 
+                                      <div class="ml-1 d-flex">
+                                        <label for="" class="d-flex align-items-center"><input type="radio" name="giftWrap" value=true [(ngModel)]="productdtl.giftWrap" (change)="onGifiSelect($event.target.value)"><span>&nbsp;Yes&nbsp;</span></label>
+                                        <label for="" class="d-flex align-items-center"><input type="radio" name="giftWrap" value=false [(ngModel)]="productdtl.giftWrap" (change)="onGifiSelect($event.target.value)"><span>&nbsp;No</span></label>
+                                      </div>
+                                    </div>
+                                  </ion-col> -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                                    <div class="toggle-button">
+                                      <ion-label>Gift Wrap: </ion-label>
+                                      <ion-label>
+                                          <p class="onoff"><input type="checkbox" value="true" id="giftWrap" name="giftWrap" [(ngModel)]="productdtl.giftWrap" (change)="onGifiSelect(productdtl.giftWrap)"><label for="giftWrap"></label></p>
+                                      </ion-label>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Cash on Delivery:  -->
+                                  <!-- <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3">
+                                    <div class="form-group d-flex mt-2 radioBox">
+                                      Cash on Delivery: 
+                                      <div class="ml-1 d-flex">
+                                        <label for="" class="d-flex align-items-center"><input type="radio" name="cod" value="true"  [(ngModel)]="productdtl.cod"><span>&nbsp;Yes&nbsp;</span></label>
+                                        <label for="" class="d-flex align-items-center"><input type="radio" name="cod" value="false" [(ngModel)]="productdtl.cod"><span>&nbsp;No</span></label>
+                                      </div>
+                                    </div>
+                                  </ion-col> -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="3" *ngIf="!productdtl.customization">
+                                    <div class="toggle-button">
+                                      <ion-label>Cash on Delivery: </ion-label>
+                                      <ion-label>
+                                          <p class="onoff"><input type="checkbox" value="true" id="cod" name="cod" [(ngModel)]="productdtl.cod"><label for="cod"></label></p>
+                                      </ion-label>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Gift Wrap inamount -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4" *ngIf="productdtl.giftWrap == true">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Gift Wrap Indian amount(₹)</mat-label>
+                                        <input matInput [(ngModel)]="productdtl.inamount" min="1"  type="number" name="inamount" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Gift Wrap usamount -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4" *ngIf="productdtl.giftWrap == true">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Gift Wrap US amount($)</mat-label>
+                                        <input matInput [(ngModel)]="productdtl.usamount"  min="1" type="number" name="usamount" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Select Price Type -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="pricetyplist" 
+                                              bindLabel="name" 
+                                              name="priceType"
+                                              placeholder="Select Price Type"
+                                              bindValue="name" 
+                                              [(ngModel)]="productdtl.priceType"
+                                              (change)="ngsel(productdtl.categoryId)"
+                                              required>
+                                      </ng-select>
+                                      <label>Select Price Type </label>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Select HSN -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="HSNlist" 
+                                              bindLabel="hsnCode" 
+                                              name="hsnData"
+                                              placeholder="Select HSN"
+                                              bindValue="hsnCode" 
+                                              [searchable]="false"
+                                              [searchFn]="testSearch"
+                                              [(ngModel)]="productdtl.hsnData"
+                                              (change)="hsnSelected($event)"
+                                              required>
+                                              <ng-template ng-header-tmp>
+                                                <input  type="text" class="form-control" placeholder="Search" (input)="getHSNlist($event.target.value)"
+      />
+                                              </ng-template>
+                                              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                                {{item.hsnCode}}&nbsp;/&nbsp;{{item.description}}&nbsp;/&nbsp;{{item.taxValue}}
+                                              </ng-template>
+                                              <ng-template ng-label-tmp let-item="item">
+                                                  {{item.hsnCode}}&nbsp;/&nbsp;{{item.description}}&nbsp;/&nbsp;{{item.taxValue}}
+                                            </ng-template>
+                                      </ng-select>
+                                      <label>Select HSN </label>
+                                    </div>
+                                  </ion-col>
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4" *ngIf="hsnData">
+                                    <p class="mt-3">HSN Tax Value : {{hsnData?.taxValue}}</p>
+                                  </ion-col>
+                                  <!-- Tax Percentage -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4" *ngIf="productdtl.priceType == 'Inclusive Tax'">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Tax Percentage</mat-label>
+                                        <input matInput [(ngModel)]="productdtl.taxPercentage"  min="0"  type="number" name="taxPercentage" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- In Indian Price -->
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <p class="text-bold">In Indian Price (₹)</p>
+                                  </ion-col>
+                                  <!-- Amount -->
+                                  <ion-col size-xs="12" size-sm="3" size-md="3"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Amount</mat-label>
+                                        <input matInput placeholder="Enter Product Amount" type="number"  min="0" [(ngModel)]="productdtl.amount" name="amount" (keyup)="salePriceCalculation(productdtl.amount,productdtl.inddiscountType, productdtl.indmrp, productdtl.inddiscountValue, 'indiaPrice')" (change)="salePriceCalculation(productdtl.amount,productdtl.inddiscountType, productdtl.indmrp, productdtl.inddiscountValue, 'indiaPrice')" required [disabled]="!productdtl.hsnData"/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- MRP -->
+                                  <ion-col size-xs="12" size-sm="3" size-md="3"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>MRP</mat-label>
+                                        <input matInput type="number"  min="0" [(ngModel)]="productdtl.indmrp" name="indmrp" (change)="salePriceCalculation(productdtl.amount,productdtl.inddiscountType, productdtl.indmrp, productdtl.inddiscountValue, 'indiaPrice')" required readonly/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Sale Price -->
+                                  <ion-col size-xs="12" size-sm="3" size-md="3"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Sale Price</mat-label>
+                                        <input matInput readonly type="number"  min="0" [(ngModel)]="productdtl.indealPrice" name="indealPrice" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Select Discount Type -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="3"  size-lg="3">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="discountTypelist" 
+                                              bindLabel="name" 
+                                              name="inddiscountType"
+                                              placeholder="Select Discount Type"
+                                              bindValue="name" 
+                                              [(ngModel)]="productdtl.inddiscountType"
+                                              (change)="salePriceCalculation(productdtl.amount,productdtl.inddiscountType, productdtl.indmrp, productdtl.inddiscountValue, 'indiaPrice')"
+                                              required >
+                                      </ng-select>
+                                      <label>Select Discount Type <sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Discount Value -->
+                                  <ion-col size-xs="12" size-sm="3" size-md="3"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Discount Value <span *ngIf="productdtl.inddiscountType == 'Flat'">in price</span><span *ngIf="productdtl.inddiscountType == 'Percentage'">in Percentage</span></mat-label>
+                                        <input [disabled]="productdtl.inddiscountType == 'None'"  min="0" matInput type="number" [(ngModel)]="productdtl.inddiscountValue" name="inddiscountValue" (keyup)="salePriceCalculation(productdtl.amount,productdtl.inddiscountType, productdtl.indmrp, productdtl.inddiscountValue, 'indiaPrice')" required/>
+                                        <mat-hint *ngIf="productdtl.indealPriceError == true">
+                                          Discount Value is <strong>Higher</strong> than MRP.
+                                        </mat-hint>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  
+                                  <!-- Deal Start Form -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field appearance="outline">
+                                        <mat-label>Deal Start Form</mat-label>
+                                        <input matInput type="date" [(ngModel)]="productdtl.indeal_start" name="indeal_start"
+                                        (change)="changeDateFormat('indealstart',productdtl.indeal_start)" required>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <input type="hidden" name="indealstart" [(ngModel)]="productdtl.indealstart" required>
+                                  <!-- Deal end to -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field appearance="outline">
+                                        <mat-label>Deal End to</mat-label>
+                                        <input matInput type="date" [(ngModel)]="productdtl.indeal_end" name="indeal_end"
+                                        (change)="changeDateFormat('indealend',productdtl.indeal_end)" required>
+                                        
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <input type="hidden" name="indealend" [(ngModel)]="productdtl.indealend">
+                                  <!-- Us price Start -->
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <p class="text-bold">In US Price ($)</p>
+                                  </ion-col>
+                                  <!-- Amount -->
+                                  <ion-col size-xs="12" size-sm="3" size-md="3"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Amount</mat-label>
+                                        <input matInput placeholder="Enter Product Amount" type="number"  min="0" [(ngModel)]="productdtl.usamount" name="usamount" (keyup)="salePriceCalculation(productdtl.usamount,productdtl.usdiscountType, productdtl.usmrp, productdtl.usdiscountValue, 'usPrice')" (change)="salePriceCalculation(productdtl.usamount,productdtl.usdiscountType, productdtl.usmrp, productdtl.usdiscountValue, 'usPrice')" required [disabled]="!productdtl.hsnData"/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- MRP -->
+                                  <ion-col size-xs="12" size-sm="3" size-md="3"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>MRP</mat-label>
+                                        <input matInput type="number"  min="0" [(ngModel)]="productdtl.usmrp" name="usmrp" (change)="salePriceCalculation(productdtl.usamount,productdtl.usdiscountType, productdtl.usmrp, productdtl.usdiscountValue, 'usPrice')" required readonly/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Sale Price -->
+                                  <ion-col size-xs="12" size-sm="3" size-md="3"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Sale Price</mat-label>
+                                        <input matInput readonly type="number"  min="0" [(ngModel)]="productdtl.usdealPrice" name="usdealPrice" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Select Discount Type -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="3"  size-lg="3">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="discountTypelist" 
+                                              bindLabel="name" 
+                                              name="usdiscountType"
+                                              placeholder="Select Discount Type"
+                                              bindValue="name" 
+                                              [(ngModel)]="productdtl.usdiscountType"
+                                              (change)="salePriceCalculation(productdtl.usamount,productdtl.usdiscountType, productdtl.usmrp, productdtl.usdiscountValue, 'usPrice')"
+                                              required >
+                                      </ng-select>
+                                      <label>Select Discount Type <sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Discount Value -->
+                                  <ion-col size-xs="12" size-sm="3" size-md="3"  size-lg="3">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Discount Value <span *ngIf="productdtl.usdiscountType == 'Flat'">in price</span><span *ngIf="productdtl.usdiscountType == 'Percentage'">in Percentage</span></mat-label>
+                                        <input [disabled]="productdtl.usdiscountType == 'None'"  min="0" matInput type="number" [(ngModel)]="productdtl.usdiscountValue" name="usdiscountValue" (keyup)="salePriceCalculation(productdtl.usamount,productdtl.usdiscountType, productdtl.usmrp, productdtl.usdiscountValue, 'usPrice')" required/>
+                                        <mat-hint *ngIf="productdtl.usdealPriceError == true">
+                                          Discount Value is <strong>Higher</strong> than MRP.
+                                        </mat-hint>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- Deal Start Form -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field appearance="outline">
+                                        <mat-label>Deal Start Form</mat-label>
+                                        <input matInput type="date" [(ngModel)]="productdtl.usdeal_start" name="usdeal_start"
+                                        (change)="changeDateFormat('usdealstart',productdtl.usdeal_start)" required>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <input type="hidden" name="usdealstart" [(ngModel)]="productdtl.usdealstart">
+                                  <!-- Deal end to -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field appearance="outline">
+                                        <mat-label>Deal End to</mat-label>
+                                        <input matInput type="date" [(ngModel)]="productdtl.usdeal_end" name="usdeal_end"
+                                        (change)="changeDateFormat('usdealend',productdtl.usdeal_end)" required>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <input type="hidden" name="usdealend" [(ngModel)]="productdtl.usdealend">
+                                  <!-- Customization SOH -->
+                                 </ion-row>
+                                 <ion-row>
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <p class="text-bold">Customization SOH</p>
+                                  </ion-col>
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Customization SOH</mat-label>
+                                        <input matInput type="number"  min="0" [(ngModel)]="productdtl.customizationSOH" name="customizationSOH" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                               </ion-row>
+                                <!-- standeredSOH start -->
+                                <!-- <ion-row>
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <p class="text-bold">Standered SOH</p>
+                                  </ion-col>
+                                  notify
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> Notify</mat-label>
+                                        <input matInput min="0" type="number" [(ngModel)]="productdtl.notify" name="notify" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  oos
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> OOS</mat-label>
+                                        <input matInput type="number" min="0" [(ngModel)]="productdtl.oos" name="oos" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  sizeType
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-item ngsel">
+                                      <ng-select [items]="mesormentList" 
+                                              bindLabel="name" 
+                                              [(ngModel)]="productdtl.sizeType" name="sizeType"
+                                              placeholder="Select Size Type"
+                                              bindValue="name" 
+                                              required>
+                                      </ng-select>
+                                      <label>Size Type<sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+                                  soh
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> SOH</mat-label>
+                                        <input matInput type="number" min="0" [(ngModel)]="productdtl.soh" name="soh" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                                standeredSOH end -->
+                                <!-- standeredSOH start -->
+                                <ion-row>
+                                  <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                                    <!-- <p class="text-bold">Standered SOH</p> -->
+                                    <div class="d-flex align-items-center">
+                                      <span class="text-dark font-weight-bold h4 mb-0 mr-2">Standered SOH</span>
+                                    <ion-button class="custom-btn"  (click)="addvalue()">
+                                      <mat-icon>add</mat-icon>
+                                    </ion-button>
+                                    </div>
+                                  </ion-col>
+                                </ion-row>
+                                <ion-row *ngFor="let value of standredSOH; let i = index">
+                                  <!-- notify -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> Notify</mat-label>
+                                        <input matInput min="0" type="number" [(ngModel)]="value.notify" name="notify{{i}}" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- oos -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> OOS</mat-label>
+                                        <input matInput type="number" min="0"  [(ngModel)]="value.oos" name="oos{{i}}" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <!-- sizeType -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-item ngsel">
+                                      <!-- <ng-select [items]="mesormentList" 
+                                              bindLabel="name" 
+                                              [(ngModel)]="value.sizeType" name="sizeType{{i}}"
+                                              placeholder="Select Size Type"
+                                              bindValue="name" 
+                                              required>
+                                      </ng-select> -->
+                                      <ng-select
+                                              [(ngModel)]="value.sizeType" name="sizeType{{i}}"
+                                              placeholder="Select Size Type"
+                                              appendTo="body"
+                                              (change)="toggleDisabled(value.sizeType)"
+                                              (click)="setval(value.sizeType)"
+                                              required>
+                                              <ng-option *ngFor="let mesorment of mesormentList;let i = index" [value]="mesorment.name"  [disabled]="mesorment.disabled" >{{mesorment.name}}</ng-option>
+                                      </ng-select>
+                                      <label>Size Type<sup>*</sup></label>
+                                    </div>
+                                  </ion-col>
+                                  <!-- soh -->
+                                  <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
+                                    <div class="form-group">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label> SOH</mat-label>
+                                        <input matInput type="number" min="0" [(ngModel)]="value.soh" name="soh{{i}}" required/>
+                                      </mat-form-field>
+                                    </div>
+                                  </ion-col>
+                                  <ion-col>
+                                    <ion-button color="danger" [ngClass]="{'disabled' : standredSOH.length < 2}" (click)="removevalue(i,value.sizeType)" class="mt-2">
+                                      <mat-icon>cancel</mat-icon>
+                                    </ion-button>
+                                  </ion-col>
+                                </ion-row>
+                                <!-- standeredSOH end -->
+                              </ion-grid>
+                            </div>
+                            <!-- <div>
+                              <button mat-button matStepperNext>Next</button>
+                            </div> -->
+                          </mat-step>
+                          <mat-step>
+                            <ng-template matStepLabel>Done</ng-template>
+                            <p *ngIf="frontImage != ''" >You are now done.</p>
+                            <div><p *ngIf="frontImage == ''" class="text-danger mt-2">Please choose one image.</p></div>
+                            <div class="card-footer">
+                              
+                              <div>
+                                <ion-button class="custom-btn" type="submit" [disabled]="!designerproduct.valid || frontImage == null">
+                                   <ion-spinner *ngIf="btnloader" slot="start" name="crescent" ></ion-spinner>
+                                  Save 
+                                </ion-button>
+                                <!-- <ion-button class="custom-btn" type="submit">
+                                  <ion-spinner *ngIf="btnloader" slot="start" name="crescent" ></ion-spinner>
+                                  Save 
+                                </ion-button> -->
+                                <ion-button color="danger" [routerLink]="['/','product-list']">
+                                  Cancel
+                                </ion-button>
+                              </div>
+                            </div>
+                          </mat-step>
+                        </mat-stepper>
+
+                      </div>
+                    </div>
+                    
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

@@ -1,0 +1,405 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+    <div class="page-body">
+        <div class="page-wrapper">
+            <div class="note-section">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                            <div class="note-item card-outer">
+                                <div class="card card-box">
+                                    <div class="top">
+                                        <div class="icon" style="background: #4290FC;">
+                                            <mat-icon>keyboard</mat-icon>
+                                        </div>
+                                        <div class="text">Orders</div>
+                                    </div>
+                                    <div class="middle">
+                                        <mat-icon style="color: #F64545">arrow_downward</mat-icon>
+                                        <div>$3,485</div>
+                                    </div>
+                                    <div class="bottom"><b>+36%</b> from last month</div>
+                                </div>
+                            </div>             
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                            <div class="note-item card-outer">
+                                <div class="card card-box" style="box-shadow: 0 0.46875rem 2.1875rem rgb(27 201 67 / 3%), 0 0.9375rem 1.40625rem rgb(27 201 67 / 3%), 0 0.25rem 0.53125rem rgb(27 201 67 / 5%), 0 0.125rem 0.1875rem rgb(27 201 67 / 3%);">
+                                    <div class="top">
+                                        <div class="icon" style="background: #1bc943;">
+                                            <mat-icon>description</mat-icon>
+                                        </div>
+                                        <div class="text">Reports</div>
+                                    </div>
+                                    <div class="middle">
+                                        <mat-icon style="color: #F4772E;">arrow_upward</mat-icon>
+                                        <div>436</div>
+                                    </div>
+                                    <div class="bottom"><b>+65%</b> from last month</div>
+                                </div>
+                            </div>             
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                            <div class="note-item card-outer">
+                                <div class="card card-box" style="box-shadow: 0 0.46875rem 2.1875rem rgb(248 50 69 / 3%), 0 0.9375rem 1.40625rem rgb(248 50 69 / 3%), 0 0.25rem 0.53125rem rgb(248 50 69 / 5%), 0 0.125rem 0.1875rem rgb(248 50 69 / 3%);">
+                                    <div class="top">
+                                        <div class="icon" style="background: #F64545;">
+                                            <mat-icon>person</mat-icon>
+                                        </div>
+                                        <div class="text">Customers</div>
+                                    </div>
+                                    <div class="middle">
+                                        <mat-icon style="color: #59CA44;">arrow_downward</mat-icon>
+                                        <div>4867</div>
+                                    </div>
+                                    <div class="bottom"><b>+22%</b> from last month</div>
+                                </div>
+                            </div>             
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                            <div class="note-item card-outer">
+                                <div class="card card-box" style="box-shadow: 0 0.46875rem 2.1875rem rgb(60 68 177 / 3%), 0 0.9375rem 1.40625rem rgb(60 68 177 / 3%), 0 0.25rem 0.53125rem rgb(60 68 177 / 5%), 0 0.125rem 0.1875rem rgb(60 68 177 / 3%);">
+                                    <div class="top">
+                                        <div class="icon" style="background: #3D46B1;">
+                                            <mat-icon>keyboard</mat-icon>
+                                        </div>
+                                        <div class="text">Sales</div>
+                                    </div>
+                                    <div class="middle">
+                                        <mat-icon style="color: #4290FC;">arrow_upward</mat-icon>
+                                        <div>433</div>
+                                    </div>
+                                    <div class="bottom"><b>+32%</b> from last month</div>
+                                </div>
+                            </div>             
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <ion-grid>
+                <ion-row>
+                    <ion-col size-md="6" size-lg="6">
+                        <div class="card-outer chart-box">
+                            <div class="card card-box">
+                                <div class="card-header">
+                                    <div class="card-header-tittle">
+                                        <h6>Sales statistics</h6>
+                                    </div>
+                                    <div class="card-header-action">
+                                        <mat-icon>stacked_line_chart</mat-icon>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart">
+                                        <apx-chart
+                                          [series]="chartOptions.series"
+                                          [chart]="chartOptions.chart"
+                                          [xaxis]="chartOptions.xaxis"
+                                          [stroke]="chartOptions.stroke"
+                                          [tooltip]="chartOptions.tooltip"
+                                          [dataLabels]="chartOptions.dataLabels"
+                                        ></apx-chart>
+                                    `</div>
+                                    <div class="chart-segment">
+                                        <ion-segment value="lastWeek">
+                                            <ion-segment-button value="lastWeek">
+                                              <ion-label>Last Week</ion-label>
+                                            </ion-segment-button>
+                                            <ion-segment-button value="lastMonth">
+                                              <ion-label>Last Month</ion-label>
+                                            </ion-segment-button>
+                                            <ion-segment-button value="lastYear">
+                                              <ion-label>Last Year</ion-label>
+                                            </ion-segment-button>
+                                        </ion-segment>
+                                    </div>
+                                    <div class="chart-details">
+                                        <ion-row>
+                                            <ion-col size-md="12" size-lg="6">
+                                                <div class="chart-details-item">
+                                                    <div class="chart-details-header">
+                                                        <div class="text-bold">Orders</div>
+                                                        <div class="text-bold" style="color: #F64545;">345</div>
+                                                    </div>
+                                                    <div class="chart-details-body">
+                                                        <progress-bar [progress]="Orders" [color]="'#F64545'">
+                                                        </progress-bar>
+                                                    </div>
+                                                    <div class="chart-details-header chart-details-footer">
+                                                        <div>Target</div>
+                                                        <div>100%</div>
+                                                    </div>
+                                                </div>
+                                            </ion-col>
+                                            <ion-col size-md="12" size-lg="6">
+                                                <div class="chart-details-item">
+                                                    <div class="chart-details-header">
+                                                        <div class="text-bold">Customers</div>
+                                                        <div class="text-bold" style="color: #F4772E;">433</div>
+                                                    </div>
+                                                    <div class="chart-details-body">
+                                                        <progress-bar [progress]="Customers" [color]="'#F4772E'">
+                                                        </progress-bar>
+                                                    </div>
+                                                    <div class="chart-details-header chart-details-footer">
+                                                        <div>Target</div>
+                                                        <div>100%</div>
+                                                    </div>
+                                                </div>
+                                            </ion-col>
+                                        </ion-row>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-col>
+                    <ion-col size-md="6" size-lg="6">
+                        <div class="card-outer chart-box">
+                            <div class="card card-box">
+                                <div class="card-header">
+                                    <div class="card-header-tittle">
+                                        <h6>Sales statistics</h6>
+                                    </div>
+                                    <div class="card-header-action">
+                                        <mat-icon>stacked_line_chart</mat-icon>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart">
+                                        <apx-chart
+                                          [series]="chartOption.series"
+                                          [chart]="chartOption.chart"
+                                          [yaxis]="chartOption.yaxis"
+                                          [xaxis]="chartOption.xaxis"
+                                          [labels]="chartOption.labels"
+                                          [stroke]="chartOption.stroke"
+                                          [title]="chartOption.title"
+                                          [dataLabels]="chartOption.dataLabels"
+                                          [fill]="chartOption.fill"
+                                          [tooltip]="chartOption.tooltip"
+                                        ></apx-chart>
+                                    </div>
+                                    <div class="chart-segment">
+                                        <ion-segment value="lastWeek">
+                                            <ion-segment-button value="lastWeek">
+                                              <ion-label>Last Week</ion-label>
+                                            </ion-segment-button>
+                                            <ion-segment-button value="lastMonth">
+                                              <ion-label>Last Month</ion-label>
+                                            </ion-segment-button>
+                                            <ion-segment-button value="lastYear">
+                                              <ion-label>Last Year</ion-label>
+                                            </ion-segment-button>
+                                        </ion-segment>
+                                    </div>
+                                    <div class="chart-details">
+                                        <ion-row>
+                                            <ion-col size-md="12" size-lg="6">
+                                                <div class="chart-details-item">
+                                                    <div class="chart-details-header">
+                                                        <div class="text-bold">Orders</div>
+                                                        <div class="text-bold" style="color: #59CA44;">345</div>
+                                                    </div>
+                                                    <div class="chart-details-body">
+                                                        <progress-bar [progress]="Orders" [color]="'#59CA44'">
+                                                        </progress-bar>
+                                                    </div>
+                                                    <div class="chart-details-header chart-details-footer">
+                                                        <div>Target</div>
+                                                        <div>100%</div>
+                                                    </div>
+                                                </div>
+                                            </ion-col>
+                                            <ion-col size-md="12" size-lg="6">
+                                                <div class="chart-details-item">
+                                                    <div class="chart-details-header">
+                                                        <div class="text-bold">Customers</div>
+                                                        <div class="text-bold" style="color: #32C5DB;">433</div>
+                                                    </div>
+                                                    <div class="chart-details-body">
+                                                        <progress-bar [progress]="Customers" [color]="'#32C5DB'">
+                                                        </progress-bar>
+                                                    </div>
+                                                    <div class="chart-details-header chart-details-footer">
+                                                        <div>Target</div>
+                                                        <div>100%</div>
+                                                    </div>
+                                                </div>
+                                            </ion-col>
+                                        </ion-row>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size-md="6" size-lg="12">
+                        <div class="card-outer">
+                            <div class="card card-box">
+                                <div class="card-header">
+                                    <div class="card-header-tittle">
+                                        Employees status 
+                                    </div>
+                                    <div class="card-header-action">
+                                        <mat-icon>settings</mat-icon>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="ion-text-start">#</th>
+                                                    <th class="ion-text-start">Name</th>
+                                                    <th class="ion-text-center">Status</th>
+                                                    <th class="ion-text-center">Progress</th>
+                                                    <th class="ion-text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>12</td>
+                                                    <td>
+                                                        <ion-item class="name-box">
+                                                            <ion-avatar slot="start">
+                                                              <img src="assets/images/avatar1.jpg">
+                                                            </ion-avatar>
+                                                            <ion-label>
+                                                              <h2 class="userName">Shanelle Wynn</h2>
+                                                              <h3 class="userRole">UI Engineer, Apple Inc.</h3>
+                                                            </ion-label>
+                                                        </ion-item>
+                                                    </td>
+                                                    <td>
+                                                        <div class="status warning">
+                                                            Pending
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <progress-bar [progress]="Employees" [color]="'#32C5DB'">
+                                                        </progress-bar>
+                                                    </td>
+                                                    <td>
+                                                        <div class="action ion-text-center">
+                                                            <button mat-flat-button color="primary">
+                                                                <mat-icon>tune</mat-icon>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12</td>
+                                                    <td>
+                                                        <ion-item class="name-box">
+                                                            <ion-avatar slot="start">
+                                                              <img src="assets/images/avatar2.jpg">
+                                                            </ion-avatar>
+                                                            <ion-label>
+                                                              <h2 class="userName">Shanelle Wynn</h2>
+                                                              <h3 class="userRole">UI Engineer, Apple Inc.</h3>
+                                                            </ion-label>
+                                                        </ion-item>
+                                                    </td>
+                                                    <td>
+                                                        <div class="status warning">
+                                                            Pending
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <progress-bar [progress]="Employees2" [color]="'#59CA44'">
+                                                        </progress-bar>
+                                                    </td>
+                                                    <td>
+                                                        <div class="action ion-text-center">
+                                                            <button mat-flat-button color="primary">
+                                                                <mat-icon>tune</mat-icon>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>13</td>
+                                                    <td>
+                                                        <ion-item class="name-box">
+                                                            <ion-avatar slot="start">
+                                                              <img src="assets/images/avatar3.jpg">
+                                                            </ion-avatar>
+                                                            <ion-label>
+                                                              <h2 class="userName">Regan Norris</h2>
+                                                              <h3 class="userRole">Senior Project Manager</h3>
+                                                            </ion-label>
+                                                        </ion-item>
+                                                    </td>
+                                                    <td>
+                                                        <div class="status danger">
+                                                            failed
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <progress-bar [progress]="Employees3" [color]="'#f83245'">
+                                                        </progress-bar>
+                                                    </td>
+                                                    <td>
+                                                        <div class="action ion-text-center">
+                                                            <button mat-flat-button color="primary">
+                                                                <mat-icon>tune</mat-icon>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>33</td>
+                                                    <td>
+                                                        <ion-item class="name-box">
+                                                            <ion-avatar slot="start">
+                                                              <img src="assets/images/people-1.jpg">
+                                                            </ion-avatar>
+                                                            <ion-label>
+                                                              <h2 class="userName">Beck Simpson</h2>
+                                                              <h3 class="userRole">Frontend Developer</h3>
+                                                            </ion-label>
+                                                        </ion-item>
+                                                    </td>
+                                                    <td>
+                                                        <div class="status success">
+                                                            Complete
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <progress-bar [progress]="Employees4" [color]="'#7A7B97'">
+                                                        </progress-bar>
+                                                    </td>
+                                                    <td>
+                                                        <div class="action ion-text-center">
+                                                            <button mat-flat-button color="primary">
+                                                                <mat-icon>tune</mat-icon>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="border-btn danger" mat-stroked-button>Delete</button>
+                                    <div>
+                                        <button class="border-btn" mat-stroked-button style="margin-right: 10px;">View all</button>
+                                        <button class="fill-btn" mat-stroked-button>Add new entry</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+    <!-- common footer show -->
+    <common-footer></common-footer>
+</ion-content>
+

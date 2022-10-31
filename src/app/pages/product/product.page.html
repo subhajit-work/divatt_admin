@@ -1,0 +1,517 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="table-listing">
+        <div class="container-fluid">
+          <div class="page-header">
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="page-header-left">
+                          <h3>Product
+                              <!-- <small>Divatt Admin panel</small> -->
+                          </h3>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item">
+                          <a [routerLink]="'/dashboard'">
+                                <mat-icon>home</mat-icon>
+                          </a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                          Product Management
+                        </li>
+                        <li class="breadcrumb-item active">
+                          Product List
+                        </li>
+                    </ol>
+                </div>
+                  <!-- <div class="col-lg-6">
+                      <ol class="breadcrumb pull-right">
+                          <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                  <app-feather-icons [icon]="'home'"></app-feather-icons>
+                              </a></li>
+                          <li class="breadcrumb-item" *ngIf="breadcrumbs?.parentBreadcrumb">
+                            Product
+                          </li>
+                          <li class="breadcrumb-item active" *ngIf="breadcrumbs?.childBreadcrumb">
+                              Sub category
+                          </li>
+                      </ol>
+                  </div> -->
+              </div>
+          </div>
+        </div>
+        <div class="note-section" *ngIf="role =='ADMIN'">
+          <ion-grid>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                <div class="note-item note-item2 note-box-primary card-outer">
+                  <div matRipple class="card card-box" (click)="datatype(0)">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>view_list</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">All </p>
+                        <p><b>{{tableData?.all}}</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                <div class="note-item note-item2 note-box-warning card-outer">
+                  <div matRipple class="card card-box" (click)="datatype(1)">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>schedule</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Pending</p>
+                        <p><b>{{tableData?.pending}}</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                <div class="note-item note-item2 note-box-success card-outer">
+                  <div matRipple class="card card-box" (click)="datatype(2)">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>check</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Approved</p>
+                        <p><b>{{tableData?.approved}}</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                <div class="note-item note-item2 note-box-danger card-outer">
+                  <div matRipple class="card card-box" (click)="datatype(3)">
+                      <div class="top">
+                          <div class="icon">
+                              <mat-icon>close</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Rejected</p>
+                        <p><b>{{tableData?.rejected}}</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <div class="card card-box">
+          <div class="card-header">
+            <div class="card-header-tittle">
+             {{tableTitle}} Product List
+            </div>
+            <div class="card-header-action">
+              <ion-button class="custom-btn" [routerLink]="['/', 'add-designer-product', 'add', 'id']" *ngIf="role =='DESIGNER'">
+                Add Product
+              </ion-button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="add-content-button text-right">
+              <!-- <button class="border-btn success" mat-stroked-button>
+                <mat-icon>add_circle_outline</mat-icon>
+                Add user
+              </button> -->
+              <!-- <button class="btn btn-primary text-uppercase" (click)="actionProduct('add','')" [ngClass]="{'disabled' : btnloader2}" *ngIf="role =='DESIGNER'">                <i class="fa fa-spinner fa-spin"  *ngIf="btnloader2"></i>
+              Add Product
+            </button> -->
+            </div>
+            <div class="table-header mt-3 mb-2">
+              <div class="records-wrapper">
+                <ion-item class="record">
+                  <span class="text-black mr-1">Records: </span>
+                  <mat-form-field  class="m-0">
+                    <mat-select [(ngModel)]="displayRecord" name="record" (selectionChange)="displayRecordChange($event.value)">
+                      <mat-option *ngFor="let record of displayRecords" [value]="record.displayValue">
+                        <span *ngIf="record.displayValue > 0">{{record.displayValue}}</span>
+                        <!-- <span *ngIf="record.displayValue == 0">All</span> -->
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </ion-item>
+              </div>
+              <div class="search-wrapper">
+                <ion-searchbar class="p-0" showCancelButton="focus" debounce="500" placeholder="Search  product name ...." [(ngModel)]="searchTerm" (ionChange)="searchList($event)"></ion-searchbar>
+              </div>
+            </div>
+            <div class="table-responsive" *ngIf="role == 'DESIGNER'">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="ion-text-start">
+                                <div>
+                                    #
+                                </div>
+                            </th>
+                            <!-- <th class="ion-text-start" *ngIf="role =='DESIGNER'">
+                              <div>
+                                <ion-checkbox color="primary" name="select_all_item" [(ngModel)]="allselectModel" (ionChange)="allSelectItem($event)"></ion-checkbox>
+                              </div>
+                            </th> -->
+                            <th *ngFor="let th of tableHeaderData" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
+                              <div>
+                                {{th.display_name}}
+                                <mat-icon *ngIf="th.sortingButtonName == ''">import_export</mat-icon>
+                                <mat-icon *ngIf="th.sortingButtonName == 'ASC'">expand_less</mat-icon>
+                                <mat-icon *ngIf="th.sortingButtonName == 'DESC'">expand_more</mat-icon>
+                              </div>
+                            </th>
+                            <th class="ion-text-center">
+                              Product Img
+                            </th>
+                            <th class="ion-text-center">
+                              <div class="ion-justify-content-center">
+                                Verifiction
+                              </div>
+                            </th>
+                            <th class="ion-text-center">
+                              <div class="ion-justify-content-center">
+                                Status
+                              </div>
+                            </th>
+                            <th class="ion-text-center" >
+                              <div class="ion-justify-content-center">
+                                Actions
+                              </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr  [hidden]="!isListLoading" class="loading-table-data">
+                        <td colspan="100" class="text-center">
+                          Data is loading...
+                        </td>
+                      </tr>
+                      <tr [hidden]="isListLoading" *ngIf="tableData?.data.length == 0" class="loading-table-data">
+                        <td colspan="100" class="text-center">
+                          No data found
+                        </td>
+                      </tr>
+                      <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index">
+                        <td>{{i + 1}}</td>
+                        <!-- <td *ngIf="role =='DESIGNER'">
+                          <ion-checkbox  name="checkbox_name" [(ngModel)]="item.isSelected" (ionChange)="onCheckboxSelect(item, $event)" color="primary"></ion-checkbox>
+                        </td> -->
+                        <td>
+                          <a [routerLink]="['/', 'product-view',  item.productId]" class="text-decoration-none">
+                          <div class="longtext" [matTooltip]="item?.productName"
+                          matTooltipPosition="right">
+                            {{item?.productName}}
+                            </div>
+                            </a>
+                        </td>
+                        <td>
+                          <div class="longtext" [matTooltip]="item?.productDescription"
+                          matTooltipPosition="right">
+                             {{item?.productDescription}}
+                          </div>
+                        </td>
+                        <!-- <td>
+                          {{item?.designerName}}
+                        </td> -->
+                        <td>
+                          {{item?.gender}}
+                        </td>
+                        <td>
+                          {{item?.age?.min}}--{{item?.age?.max}}
+                        </td>
+                        <!-- <td>
+                          {{item?.priceType}}
+                        </td>
+                        <td>
+                          {{item?.taxPercentage}}
+                        </td>   -->
+                        <td>
+                          {{item?.price?.indPrice?.mrp}}
+                        </td>
+                                              
+                        <td>
+                          {{item?.price?.usPrice?.mrp}}
+                        </td>
+                        <td >
+                          <span *ngIf="item.standeredSOH">
+                            {{item?.standeredSOH[0]?.soh}}
+                          </span>
+                          
+                        </td>
+                        <td>
+                          <div class="symbol-group symbol-hover">
+                            <a [href]="item?.images[0]?.name" [attr.data-fancybox]="item.productId" *ngIf="item?.images[0]?.name">
+                              <img [src]="item?.images[0]?.name" class="img-fluid rounded tableimg">
+                            </a>
+                            <a [href]="item?.images[1]?.name" [attr.data-fancybox]="item.productId" *ngIf="item?.images[1]?.name">
+                              <img [src]="item?.images[1]?.name" class="img-fluid rounded tableimg">
+                            </a>
+                            <a [href]="item?.images[2]?.name" [attr.data-fancybox]="item.productId" *ngIf="item?.images[2]?.name">
+                              <img [src]="item?.images[2]?.name" class="img-fluid rounded tableimg">
+                            </a>
+                            <a [href]="item?.images[3]?.name"  [attr.data-fancybox]="item.productId" *ngIf="item?.images[3]?.name">
+                              <img [src]="item?.images[3]?.name" class="img-fluid rounded tableimg">
+                            </a>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="status" [ngClass]="{ 'warning': item.adminStatus == 'Pending' , 'danger': item.adminStatus == 'Rejected','success': item.adminStatus == 'Approved'}">
+                            {{item?.adminStatus}}
+                          </span>
+                          
+                        </td>
+                        <td >
+                          <mat-slide-toggle
+                                class="example-margin"
+                                (change)="statusChange(item.productId)"
+                                [checked]="item.isActive == true">
+                          </mat-slide-toggle>
+                        </td>
+                        <td class="action pt-0">
+                          <ion-fab horizontal="end" vertical="bottom" slot="" *ngIf="role != 'DESIGNER'">
+                            <ion-fab-button color="dark">
+                              <ion-icon color="warning" tooltip="Pending" flow="up" delay="500" name="time-outline" ></ion-icon>
+                              <!-- <ion-icon color="danger" tooltip="Rejected" flow="up" delay="500" name="close-circle-outline"></ion-icon> -->
+                              <!-- <ion-icon  color="success" tooltip="Approved" flow="up" delay="500" name="checkmark-circle-outline"></ion-icon> -->
+                            </ion-fab-button>
+                            <ion-fab-list side="start">
+                              <!-- <ion-fab-button color="warning" tooltip="Pending" flow="up" delay="500">
+                                <ion-icon name="time-outline" color="dark"></ion-icon>
+                              </ion-fab-button> -->
+                              <ion-fab-button color="danger" tooltip="Reject Product" flow="up" delay="500"  (click)="changeStatus('reject',item)">
+                                <ion-icon name="close-circle-outline" color="dark"></ion-icon>
+                              </ion-fab-button>
+                              <ion-fab-button color="success" tooltip="Approve Product" flow="up" delay="500" (click)="changeStatus('approve',item)">
+                                <ion-icon name="checkmark-circle-outline" color="dark"></ion-icon>
+                              </ion-fab-button>
+                            </ion-fab-list>
+                          </ion-fab>
+                          <div class="action ion-text-center">
+                            <ion-button  matTooltip="Edit" matTooltipPosition="above" size="small" color="secondary" [routerLink]="['/', 'add-designer-product', 'edit', item.productId]">
+                              <mat-icon>edit</mat-icon>
+                            </ion-button>
+                            <ion-button matTooltip="Delete" matTooltipPosition="above" size="small" color="danger" (click)="onClickDeleteItem('single', item.productId, '', '')">
+                                <mat-icon>delete</mat-icon>
+                            </ion-button>
+                            <ion-button *ngIf="item.comments" matTooltip="View message" matTooltipPosition="above" size="small" color="secondary" (click)="openRejectemodal('message_modal', item.comments, '');">
+                              <mat-icon>chat</mat-icon>
+                            </ion-button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive" *ngIf="role == 'ADMIN'">
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th class="ion-text-start">
+                              <div>
+                                  #
+                              </div>
+                          </th>
+                          <!-- <th class="ion-text-start" *ngIf="role =='DESIGNER'">
+                            <div>
+                              <ion-checkbox color="primary" name="select_all_item" [(ngModel)]="allselectModel" (ionChange)="allSelectItem($event)"></ion-checkbox>
+                            </div>
+                          </th> -->
+                          <th *ngFor="let th of tableHeaderData1" (click)="isSortTableHeader(tableHeaderData1, th)" class="ion-text-center">
+                            <div>
+                              {{th.display_name}}
+                              <mat-icon *ngIf="th.sortingButtonName == ''">import_export</mat-icon>
+                              <mat-icon *ngIf="th.sortingButtonName == 'ASC'">expand_less</mat-icon>
+                              <mat-icon *ngIf="th.sortingButtonName == 'DESC'">expand_more</mat-icon>
+                            </div>
+                          </th>
+                          <th class="ion-text-center">
+                            <div class="ion-justify-content-center">
+                              Product Img
+                            </div>
+                          </th>
+                          <th class="ion-text-center">
+                            <div class="ion-justify-content-center">
+                              Verifiction
+                            </div>
+                          </th>
+                          <th class="ion-text-center" >
+                            <div class="ion-justify-content-center">
+                              Actions
+                            </div>
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr  [hidden]="!isListLoading" class="loading-table-data">
+                      <td colspan="100" class="text-center">
+                        Data is loading...
+                      </td>
+                    </tr>
+                    <tr [hidden]="isListLoading" *ngIf="tableData?.data.length == 0" class="loading-table-data">
+                      <td colspan="100" class="text-center">
+                        No data found
+                      </td>
+                    </tr>
+                    <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index">
+                      <td>{{i + 1}}</td>
+                      <td>
+                        <a [routerLink]="['/', 'product-view',  item.productId]" class="text-decoration-none">
+                          <div class="longtext" [matTooltip]="item?.productName" matTooltipPosition="right">
+                            {{item?.productName}}
+                          </div>
+                        </a>
+                      </td>
+                      <td>
+                        <div class="longtext" [matTooltip]="item?.productDescription"
+                        matTooltipPosition="right">
+                          {{item?.productDescription}}
+                        </div>
+                        
+                      </td>
+                      <td>
+                        {{item?.designerName}}
+                      </td>
+                      <td>
+                        {{item?.gender}}
+                      </td>
+                      <td>
+                        {{item?.age?.min}}--{{item?.age?.max}}
+                      </td>
+                      <!-- <td>
+                        {{item?.priceType}}
+                      </td>
+                      <td>
+                        {{item?.taxPercentage}}
+                      </td>  -->
+                      <td>
+                        
+                        {{item?.price?.indPrice?.mrp}}
+                      </td>                        
+                      <td>
+                        {{item?.price?.usPrice?.mrp}}
+                      </td>
+                      <td>
+                        <span *ngIf="item.standeredSOH">
+                          {{item?.standeredSOH[0]?.soh}}
+                        </span>
+                      </td>
+                      <td>
+                        <!-- <a href="{{item?.images[0].name}}" data-fancybox data-caption="My caption">
+                          <img [src]="item?.images[0].name" class="w-50 img-fluid rounded">
+                        </a> -->
+                        <div class="symbol-group symbol-hover">
+                          <!-- <div class="symbol">
+                            <img [src]="item?.images[3].name" *ngIf="item?.images[3]" class="tableimg" alt="">
+                          </div> -->
+                          <a [href]="item?.images[0]?.name" [attr.data-fancybox]="item.productId" *ngIf="item?.images[0]?.name">
+                            <img [src]="item?.images[0]?.name" class="img-fluid rounded tableimg">
+                          </a>
+                          <a [href]="item?.images[1]?.name" [attr.data-fancybox]="item.productId" *ngIf="item?.images[1]?.name">
+                            <img [src]="item?.images[1]?.name" class="img-fluid rounded tableimg">
+                          </a>
+                          <a [href]="item?.images[2]?.name" [attr.data-fancybox]="item.productId" *ngIf="item?.images[2]?.name">
+                            <img [src]="item?.images[2]?.name" class="img-fluid rounded tableimg">
+                          </a>
+                          <a [href]="item?.images[3]?.name" [attr.data-fancybox]="item.productId" *ngIf="item?.images[3]?.name">
+                            <img [src]="item?.images[3]?.name" class="img-fluid rounded tableimg">
+                          </a>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="status" [ngClass]="{ 'warning': item.adminStatus == 'Pending' , 'danger': item.adminStatus == 'Rejected','success': item.adminStatus == 'Approved'}">
+                          {{item?.adminStatus}}
+                        </span>
+                        
+                      </td>
+                      <td class="action pt-0 text-center">
+                        <ion-fab *ngIf="pagePermission?.modPrivs?.update == true" horizontal="end" vertical="bottom" slot="">
+                          <ion-fab-button color="dark">
+                            <ion-icon color="warning"  matTooltip="Pending" matTooltipClass="bg-warning" flow="up" delay="500" name="time-outline" *ngIf="item.adminStatus== 'Pending'"></ion-icon>
+                            <ion-icon color="danger"  matTooltip="Rejected" matTooltipClass="bg-danger" flow="up" delay="500" name="close-circle-outline" *ngIf="item.adminStatus== 'Rejected'"></ion-icon>
+                            <ion-icon  color="success" matTooltip="Approved" matTooltipClass="bg-success" flow="up" delay="500" name="checkmark-circle-outline" *ngIf="item.adminStatus== 'Approved'"></ion-icon>
+                          </ion-fab-button>
+                          <ion-fab-list side="start">
+                            <ion-fab-button color="danger" matTooltip="Reject Product" matTooltipClass="bg-danger" flow="up" delay="500" *ngIf="item.adminStatus != 'Rejected'" (click)="changeStatus('reject',item)">
+                              <ion-icon name="close-circle-outline" color="dark"></ion-icon>
+                            </ion-fab-button>
+                            <ion-fab-button color="success"  matTooltip="Approve Product" matTooltipClass="bg-success" flow="up" delay="500" *ngIf="item.adminStatus != 'Approved'" (click)="changeStatus('approve',item)">
+                              <ion-icon name="checkmark-circle-outline" color="dark"></ion-icon>
+                            </ion-fab-button>
+                          </ion-fab-list>
+                        </ion-fab>
+                        <ion-button *ngIf="item.comments" matTooltip="View message" matTooltipPosition="above" size="small" color="secondary" (click)="openRejectemodal('message_modal', item.comments, '');">
+                          <mat-icon>chat</mat-icon>
+                        </ion-button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+          </div>
+          <div class="card-footer">
+            <div class="action">
+              <ion-button matTooltip="Refresh" matTooltipPosition="above" size="small" color="primary" (click)="onRefresh()">
+                <mat-icon>refresh</mat-icon>
+              </ion-button>
+              <div *ngIf="tableData?.data.length == 0">
+                <ion-button [ngClass]="{'disabled':checkedList.length == 0 || alldeleteLoaderShow}" class="w-40" (click)="onClickDeleteItem('multiple', '', tableListData, '')" matTooltip="Recycle Bin" matTooltipPosition="above" color="danger" *ngIf="alldelbtn">
+                  <mat-icon *ngIf="!alldeleteLoaderShow" >delete_forever</mat-icon>
+                  <ion-spinner *ngIf="alldeleteLoaderShow" class="delete-spinner" name="crescent"></ion-spinner>
+                </ion-button>
+              </div>
+            </div>
+            <div>
+                <ul class="pagination">
+                    <li (click)="setPage(0)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="First" matTooltipPosition="above">
+                        <a>
+                          <!-- First -->
+                          <ion-icon name="play-skip-back"></ion-icon>
+                        </a>
+                    </li>
+                    <li (click)="setPage(tableData.currentPage - 1)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="Previous" matTooltipPosition="above">
+                        <a>
+                          <!-- Previous -->
+                          <ion-icon name="caret-back"></ion-icon>
+                        </a>
+                    </li>
+                    <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                    <li>
+                        Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} 
+                    </li>
+                    <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                    <li (click)="setPage(tableData.currentPage + 1)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Next" matTooltipPosition="above">
+                        <a>
+                          <!-- Next -->
+                          <ion-icon name="caret-forward"></ion-icon>
+                        </a>
+                    </li>
+                    <li (click)="setPage(tableData.totalPage)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Last" matTooltipPosition="above">
+                        <a>
+                          <!-- Last -->
+                          <ion-icon name="play-skip-forward"></ion-icon>
+                        </a>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

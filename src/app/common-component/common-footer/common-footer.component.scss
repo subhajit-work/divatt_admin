@@ -1,0 +1,22 @@
+.ion-footer {
+    background-color: #ffffff;
+    .footer {
+      
+        width: 100%;
+        padding: 15px;
+        color: #a5a5a5;
+        line-height: 1.7;
+    
+    }
+    @media screen and (max-width:426px) 
+    {
+        .footer
+        {
+            text-align: center;
+        }   
+        .float-right
+        {
+            float: none !important;
+        }    
+    }
+}

@@ -1,0 +1,272 @@
+<ion-header class="main-header">
+  <ion-toolbar>
+    <div class="main-custom-style">
+      <!-- <ion-buttons slot="start" >  -->
+        <div class="menuicon desktopscreen">
+          <mat-icon (click)="openNav()">menu</mat-icon>
+          <a class="d-flex" routerLink="/dashboard">
+            <img class="logo-1stpart biglogo"  src="assets/images/logo.png" alt="logo">
+          </a>
+        </div>
+      
+      <!-- </ion-buttons> -->
+    <div class="custom-style style1">
+      <div class="menuicon tabletscreen ">
+        <mat-icon (click)="openNav()">menu</mat-icon>
+        <a class="d-flex" routerLink="/dashboard">
+          <img class="logo-1stpart smalllogo"  src="assets/images/favicon.png" alt="logo">
+        </a>
+      </div>
+      <ion-searchbar slot="end" debounce="500"></ion-searchbar>
+      <div class="d-flex">
+        <div class="menuicon mobilescreen">
+          <mat-icon>menu</mat-icon>
+          <a class="d-flex" routerLink="/dashboard">
+            <img class="logo-1stpart smalllogo"  src="assets/images/favicon.png" alt="logo">
+          </a>
+        </div>
+        <div class="d-flex">
+          <ion-buttons slot="end" class="notification-panel header-btn">
+            <button mat-button [matMenuTriggerFor]="notification">
+              <mat-icon matBadge="8" matBadgePosition="after"   >notifications_none</mat-icon>
+            </button>
+            <mat-menu #notification="matMenu" xPosition="before" backdropClass="matMenuDropdown">
+              <div class="notification-box">
+                <div class="notification-list">
+                  <p class="tittle">Notification</p>
+                  <div class="notification-item">
+                    <div class="notification-item-content">
+                      <p class="notification-heading success">
+                        <mat-icon>local_mall</mat-icon>
+                        <span>Your order ready for Ship..! </span>
+                      </p>
+                      <p class="notification-content">
+                        The World Wide Web goes live with its first web page. 
+                        The World Wide Web goes live with its first web page. 
+                      </p>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-item-content">
+                      <p class="notification-heading danger">
+                        <mat-icon>delete_forever</mat-icon>
+                        <span>Deleted Succesfully</span>
+                      </p>
+                      <p class="notification-content">
+                        The World Wide Web goes live with its first web page. 
+                        The World Wide Web goes live with its first web page. 
+                      </p>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-item-content">
+                      <p class="notification-heading warning">
+                        <mat-icon>file_download</mat-icon>
+                        <span>Downloading....</span>
+                      </p>
+                      <p class="notification-content">
+                        The World Wide Web goes live with its first web page. 
+                        The World Wide Web goes live with its first web page. 
+                      </p>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-item-content">
+                      <p class="notification-heading info">
+                        <mat-icon>error_outline</mat-icon>
+                        <span>250 MB trash files</span>
+                      </p>
+                      <p class="notification-content">
+                        The World Wide Web goes live with its first web page. 
+                        The World Wide Web goes live with its first web page. 
+                      </p>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </mat-menu>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <div class="profile-box">
+              <button mat-button [matMenuTriggerFor]="profile">
+                <ion-item>
+                  <ion-avatar slot="start">
+                   <img [src]="profileImage!= null ? profileImage : 'assets/images/noimage.jpg'" alt="" class="">
+          
+                  </ion-avatar>
+                  <ion-label>
+                    <h2 class="userName text-capitalize" *ngIf="role == 'DESIGNER'">{{userData?.designerProfile?.firstName1}}</h2>
+                    <h2 class="userName text-capitalize" *ngIf="role !== 'DESIGNER'">{{userData?.firstName}}</h2>
+                    <h3 *ngIf="role !== 'DESIGNER'" class="userRole">{{userData?.roleName}}</h3>
+                    <h3 *ngIf="role == 'DESIGNER'" class="userRole">Designer</h3>
+                  </ion-label>
+                </ion-item>
+              </button>
+              <mat-menu #profile="matMenu" xPosition="before" backdropClass="matMenuDropdown">
+                <ul class="dropdown-box">
+                  <li class="box-item profile-option">
+                    <ul>
+                      <li class="option-header">
+                        <p>Profile options</p>
+                      </li>
+                      <li><ion-label (click)="goToPage('profile');">Profile</ion-label></li>
+                      <li><ion-label (click)="openChangePasswordmodal('changepassword_modal', '', '');">Change Password</ion-label></li>
+                      <li><ion-label (click)="logout();">Logout</ion-label></li>
+                    </ul>
+                  </li>
+                </ul>
+              </mat-menu>
+            </div>
+          </ion-buttons>
+        </div>
+        
+      </div>
+    </div>
+    <div class="custom-style style2 d-grid">
+      <div class="d-flex justify-content-between">
+        <div class="menuicon tabletscreen ">
+        <mat-icon (click)="openNav()">menu</mat-icon>
+        <a class="d-flex" routerLink="/dashboard">
+          <img class="logo-1stpart smalllogo"  src="assets/images/favicon.png" alt="logo">
+        </a>
+      </div>
+      <div class="d-flex">
+        <div class="menuicon mobilescreen">
+          <mat-icon (click)="openNav()">menu</mat-icon>
+          <a class="d-flex" routerLink="/dashboard">
+            <img class="logo-1stpart smalllogo"  src="assets/images/favicon.png" alt="logo">
+          </a>
+        </div>
+        <div class="d-flex">
+          <ion-buttons slot="end" class="notification-panel header-btn">
+            <button mat-button [matMenuTriggerFor]="notification">
+              <mat-icon matBadge="8" matBadgePosition="after"   >notifications_none</mat-icon>
+            </button>
+            <mat-menu #notification="matMenu" xPosition="before" backdropClass="matMenuDropdown">
+              <div class="notification-box">
+                <div class="notification-list">
+                  <p class="tittle">Notification</p>
+                  <div class="notification-item">
+                    <div class="notification-item-content">
+                      <p class="notification-heading success">
+                        <mat-icon>local_mall</mat-icon>
+                        <span>Your order ready for Ship..! </span>
+                      </p>
+                      <p class="notification-content">
+                        The World Wide Web goes live with its first web page. 
+                        The World Wide Web goes live with its first web page. 
+                      </p>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-item-content">
+                      <p class="notification-heading danger">
+                        <mat-icon>delete_forever</mat-icon>
+                        <span>Deleted Succesfully</span>
+                      </p>
+                      <p class="notification-content">
+                        The World Wide Web goes live with its first web page. 
+                        The World Wide Web goes live with its first web page. 
+                      </p>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-item-content">
+                      <p class="notification-heading warning">
+                        <mat-icon>file_download</mat-icon>
+                        <span>Downloading....</span>
+                      </p>
+                      <p class="notification-content">
+                        The World Wide Web goes live with its first web page. 
+                        The World Wide Web goes live with its first web page. 
+                      </p>
+                    </div>
+                  </div>
+                  <div class="notification-item">
+                    <div class="notification-item-content">
+                      <p class="notification-heading info">
+                        <mat-icon>error_outline</mat-icon>
+                        <span>250 MB trash files</span>
+                      </p>
+                      <p class="notification-content">
+                        The World Wide Web goes live with its first web page. 
+                        The World Wide Web goes live with its first web page. 
+                      </p>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </mat-menu>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <div class="profile-box">
+              <button mat-button [matMenuTriggerFor]="profile">
+                <ion-item>
+                  <ion-avatar slot="start">
+                   <img [src]="profileImage!= null ? profileImage : 'assets/images/noimage.jpg'" alt="" class="">
+          
+                  </ion-avatar>
+                  <ion-label>
+                    <h2 class="userName text-capitalize" *ngIf="role == 'DESIGNER'">{{userData?.designerProfile?.firstName1}}</h2>
+                    <h2 class="userName text-capitalize" *ngIf="role !== 'DESIGNER'">{{userData?.firstName}}</h2>
+                    <h3 *ngIf="role !== 'DESIGNER'" class="userRole">{{userData?.roleName}}</h3>
+                    <h3 *ngIf="role == 'DESIGNER'" class="userRole">Designer</h3>
+                  </ion-label>
+                </ion-item>
+              </button>
+              <mat-menu #profile="matMenu" xPosition="before" backdropClass="matMenuDropdown">
+                <ul class="dropdown-box">
+                  <li class="box-item profile-option">
+                    <ul>
+                      <li class="option-header">
+                        <p>Profile options</p>
+                      </li>
+                      <li><ion-label (click)="goToPage('profile');">Profile</ion-label></li>
+                      <li><ion-label (click)="openChangePasswordmodal('changepassword_modal', '', '');">Change Password</ion-label></li>
+                      <li><ion-label (click)="logout();">Logout</ion-label></li>
+                    </ul>
+                  </li>
+                </ul>
+              </mat-menu>
+            </div>
+          </ion-buttons>
+        </div>
+        
+      </div>
+      </div>
+      <ion-searchbar slot="end" debounce="500"></ion-searchbar>
+
+    </div>
+    
+    </div>
+    
+  </ion-toolbar>
+  <div class="admin-side-nav" [ngClass]="{ 'open-side': openleftnav}">
+    <div class="sidebar-overlay" (click)="openNav()"></div>
+    <div class="sidebar-back text-left" (click)="openNav()">
+      <i  class="fa fa-angle-left pr-2"></i> Back 
+    </div>
+    <div class="side-nav-inner">
+     
+      <div class="menu-loading" *ngIf="permissionMenuLoading">
+        <ion-progress-bar type="indeterminate" reversed="true"></ion-progress-bar>
+        <div class="menu-loading-inner">
+          <ion-spinner name="dots"></ion-spinner>
+        </div>
+      </div>
+      <ul class="sm pixelstrap sm-vertical desktop" *ngIf="!permissionMenuLoading">
+        <li class="main-item"  *ngFor="let item of get_user_permission?.modules; let i = index" [ngClass]="{ 'ion-hide': item.modPrivs.list == false}">
+          <!-- ngif submenu -->
+          <!-- <a   class="main-link" (click)="closeNav()" routerLink="/designer-list/all"  [ngClass]="{'noSubMenu':!designerlists.length}"><span>Designer</span></a> -->
+          <a   class="main-link" [routerLink]="'../'+item.modDetails.url" (click)="closeNav()">
+             <mat-icon>{{item.modDetails.title_icon}}</mat-icon>
+           <span>{{item.modDetails.title}}</span>  </a>
+       </li>
+      </ul>  
+    </div>
+    <!-- [ngStyle]="{'left': 'menuleftPosition'}" -->
+    <!-- [style.background-image] -->
+  </div>
+</ion-header>

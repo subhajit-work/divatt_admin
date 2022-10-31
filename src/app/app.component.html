@@ -1,0 +1,69 @@
+<!-- <ion-app>
+  <ion-split-pane contentId="main-content" [ngClass]="{ 'toggle-menu': toggle == true}">
+    <ion-button class="toggleMenuBtn" [ngClass]="{ 'd-none': menuicon}">
+      <mat-icon (click)="toggleMenu(toggle)">format_align_left</mat-icon>
+    </ion-button>
+    <ion-menu contentId="main-content" type="overlay" class="main-side-menu">
+      <ion-header>
+        <ion-toolbar >
+          <ion-title>
+            <div class="header_logo">
+              <img class="logo-1stpart" [routerLink]="'/dashboard'" src="assets/images/logo.png" alt="logo">
+            </div>
+          </ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="menu-list-box">
+        menu loading show
+        <div class="menu-loading" *ngIf="permissionMenuLoading">
+          <ion-progress-bar type="indeterminate" reversed="true"></ion-progress-bar>
+          <div class="menu-loading-inner">
+            <ion-spinner name="dots"></ion-spinner>
+          </div>
+        </div>
+        <mat-accordion *ngIf="!permissionMenuLoading && admin">
+          Multiple menu start
+          <mat-expansion-panel *ngFor="let item of get_user_permission?.modules; let i = index" [ngClass]="{ 'ion-hide': item.modPrivs.list == false}" class="noSubMenu" #example routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <mat-expansion-panel-header [routerLink]="item.modDetails.url" class="mat-header-bg" [class.active-parent] = "example.expanded">
+              <mat-panel-title>
+                <mat-icon>{{item.modDetails.title_icon}}</mat-icon>
+                {{item.modDetails.title}} 
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion *ngIf="!admin">
+          Multiple menu start
+          <mat-expansion-panel class="noSubMenu" #example routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <mat-expansion-panel-header [routerLink]="['/dashboard']" class="mat-header-bg" [class.active-parent] = "example.expanded">
+              <mat-panel-title>
+                <mat-icon>home</mat-icon>
+                Dashboard
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf="designerprofiledata?.profileStatus != 'waitForApprove'" class="noSubMenu" #example routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <mat-expansion-panel-header [routerLink]="['product-list']" class="mat-header-bg" [class.active-parent] = "example.expanded">
+              <mat-panel-title>
+                <mat-icon>checkroom</mat-icon>
+                Product Management
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf="designerprofiledata?.profileStatus != 'waitForApprove'" class="noSubMenu" #example routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <mat-expansion-panel-header [routerLink]="['order-list-designer']" class="mat-header-bg" [class.active-parent] = "example.expanded">
+              <mat-panel-title>
+                <mat-icon>shopping_bag</mat-icon>
+                Order Management 
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content" ></ion-router-outlet>
+  </ion-split-pane>
+</ion-app> -->
+<ion-app>
+    <ion-router-outlet id="main-content" ></ion-router-outlet>
+</ion-app>

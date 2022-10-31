@@ -1,0 +1,343 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="add-designer-product">
+        <div class="container-fluid">
+          <div class="page-header">
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="page-header-left">
+                          <h3>Product Preview
+                              <!-- <small>Divatt Admin panel</small> -->
+                          </h3>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                <mat-icon>home</mat-icon>
+                            </a>
+                          </li>
+                        <li class="breadcrumb-item active">
+                          Product 
+                        </li>
+                        <li class="breadcrumb-item active">
+                          Product View
+                        </li>
+                    </ol>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="form-layout">
+          <div class="form-wrapper">
+            <div class="card-outer">
+              <div class="card card-box">
+                  <!-- section start -->
+                <section class="product_view pt-4 pb-4">
+                  <div class="collection-wrapper ">
+                    <div class="container">
+                      <div class="row sidebar">
+                        <div class="col-lg-12 col-sm-12">
+                          <div class="container-fluid">
+                            <div class="row">
+                              <div class="col-md-6 product_img_template  laptop">
+                                <ng-template  class="col-12" ngFor let-item [ngForOf]="productDetail?.images">
+                                  <div class="mb-3 d-inline-block" >
+                                    <img class="" src={{item.name}} alt="" class="img-fluid blur-up lazyload product_img_template"/>
+                                  </div>
+                                </ng-template>
+                                <ng-template  class="col-12" >
+                                  <div class="mb-3 d-inline-block" >
+                                    <img class="" src="assets/images/fashion/product/17.jpg" alt="" class="img-fluid blur-up lazyload "/>
+                                    <img class="" src='assets/images/fashion/product/17.jpg' alt="" class="img-fluid blur-up lazyload "/>
+                                  </div>
+                                </ng-template>
+                              </div>
+                              <div class="col-md-6 rtl-text product_img_template laptop">
+                                <div class="product-right product-detail-dialog shadow-sm" data-sticky_column *ngIf="productDetail">
+                                  <h2 class="lead font-weight-bold mb-1">{{productDetail?.designerName}}</h2>
+                                  <h1 class="lead  font-sm">
+                                    {{productDetail?.productName}}
+                                  </h1>
+                                  <div class="rating d-flex mb-3">
+                                    <div class="scale_rating">
+                                      <span class="text-dark">3.7</span>
+                                      <img src="assets/icon/scale.png" alt="">
+                                    </div>
+                                  
+                                    <span>&nbsp;&nbsp;2 reviews</span>
+                                  </div>
+                                  <!-- <hr/> -->
+                                  <p class="justify-content">
+                                    <span class="mr-2">
+                                      <strong class="lead font-weight-bold">
+                                        {{productDetail?.price?.indPrice?.dealPrice | currency:'INR'}}
+                                      </strong>
+                                    </span>
+                                    <span  *ngIf="productDetail?.price?.indPrice?.mrp > productDetail?.price?.indPrice?.dealPrice">
+                                      <small>
+                                        <del>{{productDetail?.price?.indPrice?.mrp | currency:'INR'}}</del>
+                                      </small>
+                                    </span>
+                                    <span *ngIf="productDetail?.price?.indPrice?.mrp > productDetail?.price?.indPrice?.dealPrice">
+                                      <small class="text-danger"  *ngIf="productDetail?.price?.indPrice?.discountType == 'Percentage'">
+                                        ({{productDetail?.price?.indPrice?.discountValue}} % off)
+                                      </small>
+                                      <small class="text-danger" *ngIf="productDetail?.price?.indPrice?.discountType == 'Flat'">
+                                        (Flat {{productDetail?.price?.indPrice?.discountValue}} off)
+                                      </small>
+                                    </span>
+                                  </p>                 
+                                  <div class="product-description text-dark">
+                                    <div class="select-size">
+                                      <div class="row">
+                                        <div class="col">
+                                          <h6 class="lead  font-sm mt-1">
+                                            Select Size
+                                            <!-- <a  class="lead  font-sm  float-right" data-toggle="modal" data-target="#sizemodal" style="color: #44bd9d">View Size
+                                              Chart</a> -->
+                                          </h6>
+                                          
+                                        </div>
+
+                                      </div>                                     
+                                      <div class="size-box">
+                                        <ul>
+                                            <li class="pageNumber active" *ngFor="let item of productDetail?.standeredSOH"><a>{{item?.sizeType}}</a></li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- <div class="product-buttons p-1">
+                                    <button type="button" class="btn btn-transparent mr-2" *ngIf="!productDetail.cartData" (click)="addToCart(productDetail,1)"><span class="lead fs-25" style="font-size: 15px;">Add To Cart</span></button>
+                                    <button type="button" class="btn btn-solid mr-2" *ngIf="productDetail.cartData" [routerLink]="['/cart']"><span class="lead fs-25" style="font-size: 15px;">Go To Cart</span></button>
+                                    <button type="button" class="btn btn-transparent" (click)="addToWishlist(productDetail)"><span class="lead fs-25" style="font-size: 15px;">Wishlist</span></button>
+                                  </div> -->
+                                  <p class="specifications-title mt-3">Specifications</p>
+                                  <h6 class="text-capitalize lead mt-2">product details</h6>
+                                  <div class="border-product">
+                                  <p>
+                                    {{productDetail?.productDescription}}
+                                    </p>
+                                  </div>
+                                  <h6 class="text-capitalize lead">fitting information</h6>
+                                  <div class="border-product mt-2">
+                                    <p>
+                                      {{productDetail?.specifications?.fittingInformation}}
+                                    </p>
+                                    <!-- <p>
+                                      Unde omnis iste natus error si
+                                    </p>
+                                    <p>
+                                      Perspiciatis, unde omnis iste natus error si
+                                    </p> -->
+                                  </div>
+                                  <h6 class="text-capitalize lead" *ngIf="productDetail?.specifications?.style">style</h6>
+                                  <div class="border-product mt-2" *ngIf="productDetail?.specifications?.style"> 
+                                    <p>{{productDetail?.specifications?.style}}</p>
+                                  </div>
+                                  <h6 class="text-capitalize lead">Composition</h6>
+                                  <div class="border-product mt-2">
+                                    <p>Cotton {{productDetail?.specifications?.composition?.cotton}}%</p>
+                                    <p>Polystar {{productDetail?.specifications?.composition?.polystar}}%</p>
+                                  </div>
+                                  <h6 class="text-capitalize lead">Washing Instructions</h6>
+                                  <div class="border-product mt-2">
+                                    <p>{{productDetail?.specifications?.washingInformation}}</p>
+                                  </div>
+                                
+                                </div>
+                              </div>
+                              <div class="col-lg-6 product_img_slider mobile">
+                                <ngx-slick-carousel class="no-arrow " #slickModal="slick-carousel" [config]="slideRightConfig">
+                                  <!-- <div ngxSlickItem  *ngFor="let product of productDetail">
+                                    <img class="" src="assets/images/fashion/product/10.jpg" alt="" class="img-fluid blur-up lazyload"/>
+                                  </div> -->
+                                  <div ngxSlickItem *ngFor="let images of productDetail?.images">
+                                    <img class="" [src]="images.name" alt="" class="img-fluid blur-up lazyload"/>
+                                  </div>
+                                </ngx-slick-carousel>
+                                <div class="product-right">
+                                  <div class="border-product border-0 d-grid align-items-center pb-0 text-dark">
+                                    <h6 class="product-title w-fit font-sm mb-0">Share : </h6>
+                                    <div class="product-icon mt-3 w-fit">
+                                      <ul class="product-social">
+                                        <li>
+                                          <a href="#"><i class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li>
+                                          <a href="#"><i class="fa fa-google-plus"></i></a>
+                                        </li>
+                                        <li>
+                                          <a href="#"><i class="fa fa-twitter"></i></a>
+                                        </li>
+                                        <li>
+                                          <a href="#"><i class="fa fa-instagram"></i></a>
+                                        </li>
+                                        <li>
+                                          <a href="#"><i class="fa fa-rss"></i></a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6 rtl-text product_img_template mobile">
+                                <div class="product-right product-detail-dialog shadow-sm">
+                                  <h2 class="lead font-weight-bold mb-1">{{productDetail?.designerName}}</h2>
+                                  <h1 class="lead  font-sm">
+                                    {{productDetail?.productName}}
+                                  </h1>
+                                  <div class="rating d-flex mb-3">
+                                    <div class="scale_rating">
+                                      <span>3.7</span>
+                                      <img src="assets/icon/scale.png" alt="">
+                                    </div>
+                                  
+                                    <span>&nbsp;&nbsp;2 reviews</span>
+                                  </div>
+                                  <hr/>
+                                  <p class="justify-content">
+                                    <span class="mr-1">
+                                      <strong class="lead font-weight-bold">
+                                        {{productDetail?.price?.indPrice?.dealPrice | currency:'INR'}}
+                                      </strong>
+                                    </span>
+                                    <span>
+                                      <small>
+                                        <del>{{productDetail?.price?.indPrice?.mrp | currency:'INR'}}</del>
+                                      </small>
+                                    </span>
+                                    <span>
+                                      <small class="text-danger"  *ngIf="productDetail?.price?.indPrice?.discountType == 'Percentage'">
+                                        ({{productDetail?.price?.indPrice?.discountValue}} % off)
+                                      </small>
+                                      <small class="text-danger" *ngIf="productDetail?.price?.indPrice?.discountType == 'Flat'">
+                                        (Flat {{productDetail?.price?.indPrice?.discountValue}} off)
+                                      </small>
+                                    </span>
+                                  </p>                 
+                                  <div class="product-description">
+                                    <div class="select-size">
+                                      <div class="row">
+                                        <div class="col">
+                                          <h6 class="lead  font-sm mt-1">
+                                            Select Size
+                                            <a class="lead  font-sm  float-right" data-toggle="modal" data-target="#sizemodal" style="color: #44bd9d">View Size
+                                              Chart</a>
+                                          </h6>
+                                          
+                                        </div>
+
+                                      </div>
+                                      <div class="size-box">
+                                        <ul>
+                                            <li class="pageNumber active"><a href="#">XL</a></li>
+                                            <li class="pageNumber"><a href="#">XXL</a></li>
+                                            <li class="pageNumber"><a href="#">L</a></li>
+                                            <li class="pageNumber"><a href="#">S</a></li>
+                                            <li class="pageNumber"><a href="#">M</a></li>
+                                            <li class="pageNumber"><a href="#">6</a></li>
+                                        </ul>
+                                      </div>
+                                      
+                                      <!-- <div class="size-box">
+                                        <ul>
+                                          <li class="active"> <button type="button" class="btn btn-dark btn-circle btn-sm" (click)="selectSize('s')"><span class="lead">S</span></button></li>
+                                          <li> <button type="button" class="btn btn-dark btn-circle btn-sm" (click)="selectSize('m')"><span class="lead">M</span></button></li>
+                                          <li> <button type="button" class="btn btn-dark btn-circle btn-sm" (click)="selectSize('l')"><span class="lead">L</span></button></li>
+                                          <li> <button type="button" class="btn btn-dark btn-circle btn-sm" (click)="selectSize('xl')"><span class="lead">XL</span></button></li>
+                                        </ul>
+                                      </div> -->
+                                    </div>
+                                  </div>
+                                  <!-- <div class="product-buttons p-1">
+                                    <button type="button" class="btn btn-transparent mr-2" (click)="addToCart(productDetail,1)"><span class="lead fs-25" style="font-size: 15px;">Add To Cart</span></button>
+                                    <button type="button" class="btn btn-transparent" (click)="addToWishlist(productDetail)"><span class="lead fs-25" style="font-size: 15px;">Wishlist</span></button>
+                                  </div> -->
+                                  <p class="specifications-title mt-3">Specifications</p>
+                                  <h6 class="text-capitalize lead mt-2">product details</h6>
+                                  <div class="border-product">
+                                  <p>
+                                    {{productDetail?.productDescription}}
+                                    </p>
+                                  </div>
+                                  <h6 class="text-capitalize lead">fitting information</h6>
+                                  <div class="border-product mt-2">
+                                    <p>
+                                      {{productDetail?.specifications?.fittingInformation}}
+                                    </p>
+                                    <!-- <p>
+                                      Unde omnis iste natus error si
+                                    </p>
+                                    <p>
+                                      Perspiciatis, unde omnis iste natus error si
+                                    </p> -->
+                                  </div>
+                                  <h6 class="text-capitalize lead">style</h6>
+                                  <div class="border-product mt-2"> 
+                                    <p>Totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et
+                                      quasi</p>
+                                    <p>Quae ab illo inventore veritatis et
+                                      quasi</p>
+                                    <p>A illo inventore veritatis et
+                                      quasi</p>
+                                  </div>
+                                  <h6 class="text-capitalize lead">Composition</h6>
+                                  <div class="border-product mt-2">
+                                    <p>Cotton {{productDetail?.specifications?.composition?.cotton}}%</p>
+                                    <p>Polystar {{productDetail?.specifications?.composition?.polystar}}%</p>
+                                  </div>
+                                  <h6 class="text-capitalize lead">Washing Instructions</h6>
+                                  <div class="border-product mt-2">
+                                    <p>{{productDetail?.specifications?.washingInformation}}</p>
+                                  </div>
+                                
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <!-- Section ends -->
+
+                <!-- product-tab starts -->
+                <section class=" m-0 designer p-0" >
+                  <div class="container pt-2 mt-3" >
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p class="specifications-title  text-center mt-3">Description</p>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="p-3">
+                          <div class="single-product-tables mt-3 justify-content">
+                            <p class="info_text">
+                            {{productDetail.productDescription}}
+                            </p>
+                          </div>
+
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </section>
+                <!-- product-tab ends -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

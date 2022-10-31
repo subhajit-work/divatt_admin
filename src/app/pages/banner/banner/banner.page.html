@@ -1,0 +1,100 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="form-layout">
+        <div class="form-wrapper">
+          <div class="container-fluid">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="page-header-left">
+                            <h3>banner
+                                <!-- <small>Divatt Admin panel</small> -->
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <ol class="breadcrumb float-right">
+                          <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                  <mat-icon>home</mat-icon>
+                              </a></li>
+                          <li class="breadcrumb-item active">
+                            {{parms_action_name}} banner
+                          </li>
+                      </ol>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="row justify-content-center" *ngIf="loader"><mat-spinner class="form-get-loader"></mat-spinner></div>
+          <div class="card card-box" *ngIf="!loader">
+            <div class="card-header">
+                <div class="card-header-tittle">
+                  {{parms_action_name}} Banner
+                </div>
+                
+            </div>
+            
+            <form action="" #banner="ngForm" (ngSubmit)="onSubmitbannerForm(banner)" >
+              <div class="card-body">
+                <div class="col-md-6 m-auto">
+                    <ion-grid>
+                      <ion-row>
+                        <!-- Name -->
+                        <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                          <div class="form-group">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                              <mat-label>Banner title</mat-label>
+                              <input matInput  name="title" [(ngModel)] = "model.title" required>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                          <div class="form-group">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                              <mat-label>Banner Desciption</mat-label>
+                              <textarea matInput  name="description" [(ngModel)] = "model.description"></textarea>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        
+                        <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                          <div class="form-item">
+                            <div class="custom-file preview">
+                              <input type="hidden" name="image" [(ngModel)] = "model.image" required>
+                              <input class="custom-file-input" id="singleFileUpload" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event)">
+                              <label class="custom-file-label" for="singleFileUpload">Choose file</label>
+                              <img [src]="imageSrc != null ? imageSrc : 'assets/images/nobanner.jpg'" *ngIf="!uploader"/>
+                              <div class="text-black d-flex" *ngIf="uploader">Uploading&nbsp;<ion-spinner name="dots"  class="text-black"></ion-spinner></div>
+                            </div>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div></div>
+                <div>
+                  <ion-button class="custom-btn" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!banner.valid">
+                    <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                    Save
+                  </ion-button>
+                  <ion-button color="danger" [routerLink]="['/', 'banner-list']">
+                    Cancel
+                  </ion-button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

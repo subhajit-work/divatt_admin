@@ -1,0 +1,37 @@
+.download_type
+{
+    justify-content: center;
+    .icon{
+        text-align: center;
+        width: 68px;
+        border: 2px solid rgb(0 0 0);
+        border-radius: 5px;
+        padding: 11px 0 7px 0;
+        [type=radio]
+        {
+            visibility: hidden;
+            width: 0;
+        }
+        [type=radio]:checked ~ mat-icon
+        {
+            color: green;
+        }
+        [type=radio]:checked ~ p
+        {
+            color: green;
+        }
+        cursor: pointer;
+        p
+        {
+            margin-bottom: 0;
+        }
+    }
+    .icon:nth-child(1){
+        margin-right: 10px;
+    }
+}
+.exportType_title
+{
+    font-size: 20px;
+    text-align: center;
+}
